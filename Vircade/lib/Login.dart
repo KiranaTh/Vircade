@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'FormCard.dart';
 import 'Signup.dart';
-import 'test.dart';
+import 'activities.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ route(){
 
   test(){
     Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (context) => Test()
+      builder: (context) => Activities()
     ));
   }
  
@@ -45,7 +45,7 @@ route(){
           ),
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 200.0),
+              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 20.0),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -58,7 +58,7 @@ route(){
                     ],
                   ),
                   SizedBox(
-                    height: ScreenUtil().setHeight(180),
+                    height: ScreenUtil().setHeight(450),
                   ),
                   FormCard(),
                   SizedBox(height: ScreenUtil().setHeight(40)),

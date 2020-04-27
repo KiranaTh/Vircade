@@ -44,7 +44,7 @@ test(){
           ),
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 200.0),
+              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 20.0),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -57,7 +57,7 @@ test(){
                     ],
                   ),
                   SizedBox(
-                    height: ScreenUtil().setHeight(180),
+                    height: ScreenUtil().setHeight(450),
                   ),
                   FormCard(),
                   SizedBox(height: ScreenUtil().setHeight(40)),
