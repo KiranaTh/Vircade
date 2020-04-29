@@ -98,7 +98,6 @@ test(){
                         ),
                       ),
                       InkWell(
-
                         child: Container(
                           width: ScreenUtil().setWidth(280),
                           height: ScreenUtil().setHeight(100),

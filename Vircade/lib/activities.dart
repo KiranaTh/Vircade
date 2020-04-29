@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'test.dart';
+import 'Songlist.dart';
+
 
 class Activities extends StatefulWidget {
 
@@ -9,9 +10,9 @@ class Activities extends StatefulWidget {
 
 class _ActivitiesState extends State<Activities> {
 
-test(){
+songlist(){
     Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (context) => Test()
+      builder: (context) => Songlist()
     ));
 }
   @override
@@ -34,7 +35,7 @@ test(){
                width: double.infinity,
                height: 380.0,
                decoration: BoxDecoration(
-                 color: Color(0xFF6078ea),
+                 color: Color(0xFF16AAE0),
                  borderRadius: BorderRadius.circular(20.0),
                  border: Border.all(
                    color: Colors.grey.withOpacity(.3), width: .2
@@ -58,7 +59,7 @@ test(){
                           width: 150.0,
                           height: 50.0,
                           decoration: BoxDecoration(
-                              color: Color(0xFF6078ea),
+                              color: Color(0xFF16AAE0),
                               border: Border.all(
                                 color: Colors.red[200],
                                 width: 2,
@@ -73,7 +74,7 @@ test(){
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () => test(),
+                              onTap: () => songlist(),
                               child: Center(
                                 child: Text("PLAY",
                                     style: TextStyle(
