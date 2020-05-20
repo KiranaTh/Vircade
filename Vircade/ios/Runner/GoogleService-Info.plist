@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>699743058029-osifc4iiaembtheogb9seq8gvjb66hcf.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.699743058029-osifc4iiaembtheogb9seq8gvjb66hcf</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBWN57cnwsM5I3uKCysAuxO7Z-pwsy28vI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>699743058029</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.Vircade</string>
+	<key>PROJECT_ID</key>
+	<string>vircade-4c1d4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vircade-4c1d4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:699743058029:ios:0c6b28b9b948fb5ce6e764</string>
+	<key>DATABASE_URL</key>
+	<string>https://vircade-4c1d4.firebaseio.com</string>
+</dict>
+</plist>

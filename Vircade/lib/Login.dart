@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'FormCard.dart';
 import 'Signup.dart';
 import 'activities.dart';
+//import 'sign.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -119,6 +120,17 @@ route(){
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () => test(),
+                              // onTap: () {
+                              //   signInWithGoogle().whenComplete(() {
+                              //     Navigator.of(context).push(
+                              //       MaterialPageRoute(
+                              //         builder: (context) {
+                              //           return Activities();
+                              //         },
+                              //       ),
+                              //     );
+                              //   });
+                              // },
                               child: Center(
                                 child: Text("SIGN IN",
                                     style: TextStyle(
