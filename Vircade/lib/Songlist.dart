@@ -107,13 +107,6 @@ class Songlist extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // if(rating == "EASY"){
-                    //   easy(),
-                    // }else if(rating == "MEDIUM"){
-                    //   med(),
-                    // }else if(rating == "HARD"){
-                    //   med(),
-                    // },
                     SizedBox(
                       height: 20.0,
                     ),
@@ -163,99 +156,6 @@ class Songlist extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget easy() {
-    return Row(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.yellow, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.grey, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.grey, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.grey, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.grey, size: 20),
-        ),
-        Text(
-          "EASY",
-          style: TextStyle(color: Colors.yellow, fontFamily: "Poppins-Regular"),
-        ),
-      ],
-    );
-  }
-
-  Widget med() {
-    return Row(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.green, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.green, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.green, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.grey, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.grey, size: 20),
-        ),
-        Text(
-          "MEDIUM",
-          style: TextStyle(color: Colors.green, fontFamily: "Poppins-Regular"),
-        ),
-      ],
-    );
-  }
-
-  Widget hare() {
-    return Row(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.red, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.red, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.red, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.red, size: 20),
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.star, color: Colors.red, size: 20),
-        ),
-        Text(
-          "HARD",
-          style: TextStyle(color: Colors.yellow, fontFamily: "Poppins-Regular"),
-        ),
-      ],
     );
   }
 }

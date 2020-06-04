@@ -60,6 +60,7 @@ flutter:
       - assets/video1.jpg
       - assets/video2.jpg
       - assets/video3.jpg
+      - assets/walk.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

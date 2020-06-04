@@ -23,14 +23,14 @@ songlist(){
          padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 30.0),
          child: new Column(
            children: <Widget>[
-             Align(
-               alignment: Alignment.center,
-               child: Padding(
-                 padding: EdgeInsets.only(top: 30.0, bottom: 25.0),
-                 child:
-                  Image.asset("assets/logo.png", width: 62.0, height: 43.0),
-               ),
-             ),
+            //  Align(
+            //    alignment: Alignment.center,
+            //    child: Padding(
+            //      padding: EdgeInsets.only(top: 30.0, bottom: 25.0),
+            //      child:
+            //       Image.asset("assets/logo.png", width: 62.0, height: 43.0),
+            //    ),
+            //  ),
              Container(
                width: double.infinity,
                height: 380.0,

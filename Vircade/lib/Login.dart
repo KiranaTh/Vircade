@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'FormCard.dart';
 import 'Signup.dart';
-import 'activities.dart';
+import 'Home.dart';
 //import 'sign.dart';
 
 class Login extends StatefulWidget {
@@ -21,7 +21,7 @@ route(){
 
   test(){
     Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (context) => Activities()
+      builder: (context) => Home()
     ));
   }
  
