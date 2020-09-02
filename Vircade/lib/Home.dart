@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'activities.dart';
 import 'leaderboard.dart';
-import 'test.dart';
+import 'profile.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
   final _pageOptions = [
     Activities(),
     LeaderBoard(),
-    Test(),
+    Profile(),
   ];
   @override
   Widget build(BuildContext context) {
