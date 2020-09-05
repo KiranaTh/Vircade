@@ -39,6 +39,14 @@ class _ProfileState extends State<Profile> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        Text(
+                          'Win: 8',
+                          style: TextStyle(
+                            color: Colors.greenAccent,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         SizedBox(height: 5.0),
                         Container(
                           child: InkWell(
@@ -83,72 +91,169 @@ class _ProfileState extends State<Profile> {
           ),
           Expanded(
               child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0),
-                      )),
-                  child: DraggableScrollableSheet(
-                      initialChildSize: 0.96,
-                      maxChildSize: 0.96,
-                      minChildSize: 0.96,
-                      builder: (BuildContext context,
-                          ScrollController scrollController) {
-                        return Container(
-                          child: ListView.builder(
-                            controller: scrollController,
-                            itemCount: tops.length - 5,
-                            itemBuilder: (
-                              BuildContext context,
-                              int index,
-                            ) {
-                              final User top = tops[index];
-                              return Container(
-                                  child: Container(
-                                margin: EdgeInsets.only(
-                                  top: 5.0,
-                                  bottom: 5.0,
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.0, vertical: 10.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(30.0),
-                                    topLeft: Radius.circular(30.0),
-                                    bottomRight: Radius.circular(30.0),
-                                    bottomLeft: Radius.circular(30.0),
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
+                )),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "MY TOP DANCES",
+                  style: TextStyle(
+                    color: Colors.pinkAccent,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Expanded(
+                    child: DraggableScrollableSheet(
+                        initialChildSize: 0.96,
+                        maxChildSize: 0.96,
+                        minChildSize: 0.96,
+                        builder: (BuildContext context,
+                            ScrollController scrollController) {
+                          return Container(
+                            child: ListView.builder(
+                              controller: scrollController,
+                              itemCount: tops.length - 5,
+                              itemBuilder: (
+                                BuildContext context,
+                                int index,
+                              ) {
+                                final User top = tops[index];
+                                return Container(
+                                    child: Container(
+                                  margin: EdgeInsets.only(
+                                    top: 5.0,
+                                    bottom: 5.0,
                                   ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      top.name,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 10.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(30.0),
+                                      topLeft: Radius.circular(30.0),
+                                      bottomRight: Radius.circular(30.0),
+                                      bottomLeft: Radius.circular(30.0),
                                     ),
-                                    Text(
-                                      top.score,
-                                      style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w600,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        top.name,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ));
-                            },
-                          ),
-                        );
-                      })))
-          // )
+                                      Text(
+                                        top.score,
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ));
+                              },
+                            ),
+                          );
+                        }))
+              ],
+            ),
+            // child: DraggableScrollableSheet(
+            //     initialChildSize: 0.96,
+            //     maxChildSize: 0.96,
+            //     minChildSize: 0.96,
+            //     builder: (BuildContext context,
+            //         ScrollController scrollController) {
+            //       return Container(
+            //         child: ListView.builder(
+            //           controller: scrollController,
+            //           itemCount: tops.length - 5,
+            //           itemBuilder: (
+            //             BuildContext context,
+            //             int index,
+            //           ) {
+            //             final User top = tops[index];
+            //             return Container(
+            //                 child: Container(
+            //               margin: EdgeInsets.only(
+            //                 top: 5.0,
+            //                 bottom: 5.0,
+            //               ),
+            //               padding: EdgeInsets.symmetric(
+            //                   horizontal: 20.0, vertical: 10.0),
+            //               decoration: BoxDecoration(
+            //                 color: Colors.white,
+            //                 borderRadius: BorderRadius.only(
+            //                   topRight: Radius.circular(30.0),
+            //                   topLeft: Radius.circular(30.0),
+            //                   bottomRight: Radius.circular(30.0),
+            //                   bottomLeft: Radius.circular(30.0),
+            //                 ),
+            //               ),
+            //               child: Row(
+            //                 mainAxisAlignment:
+            //                     MainAxisAlignment.spaceBetween,
+            //                 children: <Widget>[
+            //                   Text(
+            //                     top.name,
+            //                     style: TextStyle(
+            //                       color: Colors.grey,
+            //                       fontSize: 15.0,
+            //                       fontWeight: FontWeight.bold,
+            //                     ),
+            //                   ),
+            //                   Text(
+            //                     top.score,
+            //                     style: TextStyle(
+            //                       color: Colors.blueGrey,
+            //                       fontSize: 15.0,
+            //                       fontWeight: FontWeight.w600,
+            //                     ),
+            //                   )
+            //                 ],
+            //               ),
+            //             ));
+            //           },
+            //         ),
+            //       );
+            //     })
+            //)
+          ))
         ]));
   }
 }
+
+// child: Row(
+//                                   mainAxisAlignment:
+//                                       MainAxisAlignment.spaceBetween,
+//                                   children: <Widget>[
+//                                     Text(
+//                                       top.name,
+//                                       style: TextStyle(
+//                                         color: Colors.grey,
+//                                         fontSize: 15.0,
+//                                         fontWeight: FontWeight.bold,
+//                                       ),
+//                                     ),
+//                                     Text(
+//                                       top.score,
+//                                       style: TextStyle(
+//                                         color: Colors.blueGrey,
+//                                         fontSize: 15.0,
+//                                         fontWeight: FontWeight.w600,
+//                                       ),
+//                                     )
+//                                   ],
+//                                 ),
