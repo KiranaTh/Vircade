@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'test.dart';
-import 'ranklist.dart';
+import 'model/ranklist.dart';
 
 class Profile extends StatefulWidget {
   @override

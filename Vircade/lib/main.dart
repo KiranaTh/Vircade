@@ -1,3 +1,4 @@
+import 'package:Vircade/avatar.dart';
 import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'SplashScreen.dart';
@@ -13,13 +14,14 @@ class MyApp extends StatelessWidget {
         auth: AuthService(),
         child: MaterialApp(
           title: 'Vircade',
-          home: SplashScreen(),
+          home: Signup(authFormType: AuthFormType.signUp),
           routes: <String, WidgetBuilder>{
             '/signUp': (BuildContext context) =>
                 Signup(authFormType: AuthFormType.signUp),
             '/logIn': (BuildContext context) =>
                 Signup(authFormType: AuthFormType.logIn),
             '/home': (BuildContext context) => HomeController(),
+            '/avatar': (BuildContext context) => Avatar(),
           },
         ));
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'activities.dart';
 import 'leaderboard.dart';
 import 'profile.dart';
@@ -22,8 +21,8 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Image.asset(
           "assets/logo.png",
-          width: ScreenUtil().setWidth(110),
-          height: ScreenUtil().setHeight(110),
+          width: MediaQuery.of(context).size.width * 0.2,
+          height: MediaQuery.of(context).size.height * 0.2,
         ),
         backgroundColor: Color(0xFF091F36),
       ),

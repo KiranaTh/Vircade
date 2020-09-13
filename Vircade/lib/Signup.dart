@@ -1,12 +1,11 @@
-//import 'package:Vircade/services/auth_service.dart';
+import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-//import 'FormCard.dart';
-//import 'Login.dart';
-//import 'test.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
+import 'package:Vircade/model/user.dart';
+import 'package:Vircade/avatar.dart';
 
-enum AuthFormType { logIn, signUp }
+enum AuthFormType { logIn, signUp, reset }
 
 class Signup extends StatefulWidget {
   final AuthFormType authFormType;
@@ -29,7 +28,10 @@ class _SignupState extends State<Signup> {
   _SignupState({this.authFormType});
 
   final formKey = GlobalKey<FormState>();
-  String _email, _password, _name;
+
+  String _email, _password, _name, _warning;
+
+  TextEditingController userNameController = new TextEditingController();
 
   void switchFormState(String state) {
     formKey.currentState.reset();
@@ -44,23 +46,45 @@ class _SignupState extends State<Signup> {
     }
   }
 
-  void submit() async {
+  bool validate() {
     final form = formKey.currentState;
     form.save();
-    try {
-      final auth = Provider.of(context).auth;
-      if (authFormType == AuthFormType.logIn) {
-        String uid = await auth.signInWithEmailAndPassword(_email, _password);
-        print("Signed in with ID $uid");
-        Navigator.of(context).pushReplacementNamed('/home');
-      } else {
-        String uid =
-            await auth.createUserWithEmailAndPassword(_email, _password, _name);
-        print("Signed in with new ID $uid");
-        Navigator.of(context).pushReplacementNamed('/home');
+    if (form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void submit() async {
+    if (validate()) {
+      try {
+        final auth = Provider.of(context).auth;
+        if (authFormType == AuthFormType.logIn) {
+          String uid = await auth.signInWithEmailAndPassword(_email, _password);
+          print("Signed in with ID $uid");
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else if (authFormType == AuthFormType.reset) {
+          await auth.sendPasswordResetEmail(_email);
+          print("Password reset email sent");
+          _warning = "Password reset link has been sent to $_email";
+          setState(() {
+            authFormType = AuthFormType.logIn;
+          });
+        } else {
+          String uid = await auth.createUserWithEmailAndPassword(
+              _email, _password, _name);
+          print("Signed in with new ID $uid");
+          String username = await auth.getCurrentuserName();
+          print("username: $username");
+          Navigator.of(context).pushReplacementNamed('/avatar');
+        }
+      } catch (e) {
+        setState(() {
+          _warning = e.message;
+        });
       }
-    } catch (e) {
-      print(e);
     }
   }
 
@@ -89,12 +113,11 @@ class _SignupState extends State<Signup> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(450),
-                  ),
+                  showAlert(),
+                  space(),
                   Container(
                     width: double.infinity,
-                    height: ScreenUtil().setHeight(500),
+                    height: ScreenUtil().setHeight(550),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
@@ -135,6 +158,51 @@ class _SignupState extends State<Signup> {
     );
   }
 
+  Widget showAlert() {
+    if (_warning != null) {
+      return Container(
+        color: Colors.amberAccent,
+        width: double.infinity,
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.error_outline),
+            ),
+            Expanded(
+              child: Text(
+                _warning,
+                maxLines: 3,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _warning = null;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    return SizedBox(
+      height: 0,
+    );
+  }
+
+  Widget space() {
+    if (_warning != null) {
+      return SizedBox(height: ScreenUtil().setHeight(345));
+    }
+    return SizedBox(height: ScreenUtil().setHeight(450));
+  }
+
   Widget showPic() {
     String pic;
     if (authFormType == AuthFormType.signUp) {
@@ -159,6 +227,8 @@ class _SignupState extends State<Signup> {
     String _headerText;
     if (authFormType == AuthFormType.signUp) {
       _headerText = "SIGN UP";
+    } else if (authFormType == AuthFormType.reset) {
+      _headerText = "RESET PASSWORD";
     } else {
       _headerText = "LOG IN";
     }
@@ -175,9 +245,21 @@ class _SignupState extends State<Signup> {
         height: ScreenUtil().setHeight(30),
       ),
     );
+    if (authFormType == AuthFormType.reset) {
+      textFeilds.add(
+        TextFormField(
+          validator: EmailValidator.validate,
+          decoration: buildSignUpInputDecoration("Email"),
+          onSaved: (value) => _email = value,
+        ),
+      );
+      return textFeilds;
+    }
     if (authFormType == AuthFormType.signUp) {
       textFeilds.add(
         TextFormField(
+          controller: userNameController,
+          validator: NameValidator.validate,
           decoration: buildSignUpInputDecoration("Username"),
           onSaved: (value) => _name = value,
         ),
@@ -190,6 +272,7 @@ class _SignupState extends State<Signup> {
     );
     textFeilds.add(
       TextFormField(
+        validator: EmailValidator.validate,
         decoration: buildSignUpInputDecoration("Email"),
         onSaved: (value) => _email = value,
       ),
@@ -201,6 +284,7 @@ class _SignupState extends State<Signup> {
     );
     textFeilds.add(
       TextFormField(
+        validator: PasswordValidator.validate,
         decoration: buildSignUpInputDecoration("Password"),
         obscureText: true,
         onSaved: (value) => _password = value,
@@ -214,7 +298,11 @@ class _SignupState extends State<Signup> {
                 color: Color(0xFF6078ea),
                 fontFamily: "Poppins-Medium",
                 fontSize: ScreenUtil().setSp(28))),
-        onPressed: () => route(),
+        onPressed: () {
+          setState(() {
+            authFormType = AuthFormType.reset;
+          });
+        },
       ));
     }
     return textFeilds;
@@ -228,8 +316,12 @@ class _SignupState extends State<Signup> {
       _newFormState = "signUp";
       _submitButton = "LOG IN";
       statesignUp = false;
+    } else if (authFormType == AuthFormType.reset) {
+      _leftButton = "Return to LOG IN";
+      _newFormState = "signIn";
+      _submitButton = "Submit";
     } else {
-      _leftButton = "Go Back to LOG IN";
+      _leftButton = "Return to LOG IN";
       _newFormState = "logIn";
       _submitButton = "SIGN UP";
       statesignUp = true;
@@ -288,7 +380,9 @@ class _SignupState extends State<Signup> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => submit(),
+              onTap: () =>
+                  // statesignUp == true ? _navigateAvatar(context) :
+                  submit(),
               child: Center(
                 child: Text(_submitButton,
                     style: TextStyle(
@@ -303,6 +397,17 @@ class _SignupState extends State<Signup> {
       ),
     ];
   }
+
+  // _navigateAvatar(BuildContext context) async {
+  //   User user = new User(userNameController.text);
+  //   final result = await Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) => Avatar(
+  //                 user: user,
+  //               )));
+  //   print(result);
+  // }
 }
 
 InputDecoration buildSignUpInputDecoration(String hint) {

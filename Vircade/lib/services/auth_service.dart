@@ -12,6 +12,10 @@ class AuthService {
     return (await _firebaseAuth.currentUser()).uid;
   }
 
+  Future<String> getCurrentuserName() async {
+    return (await _firebaseAuth.currentUser()).displayName;
+  }
+
   // GET CURRENT USER
   Future getCurrentUser() async {
     return await _firebaseAuth.currentUser();
@@ -49,5 +53,43 @@ class AuthService {
   // Sign Out
   signOut() async {
     return await _firebaseAuth.signOut();
+  }
+
+  // Reset Password
+  Future sendPasswordResetEmail(String email) async {
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+}
+
+class NameValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Name can't be empty";
+    }
+    if (value.length < 2) {
+      return "Name must be at least 2 characters long";
+    }
+    if (value.length > 20) {
+      return "Name must be less than 20 characters long";
+    }
+    return null;
+  }
+}
+
+class EmailValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Email can't be empty";
+    }
+    return null;
+  }
+}
+
+class PasswordValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      return "Password must be at least 6 characters long";
+    }
+    return null;
   }
 }

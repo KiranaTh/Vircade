@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ranklist.dart';
+import 'model/ranklist.dart';
 
 class LeaderBoard extends StatefulWidget {
   @override
