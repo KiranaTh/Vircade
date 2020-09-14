@@ -2,8 +2,7 @@ import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
-import 'package:Vircade/model/user.dart';
-import 'package:Vircade/avatar.dart';
+// import 'package:Vircade/model/user.dart';
 
 enum AuthFormType { logIn, signUp, reset }
 

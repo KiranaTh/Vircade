@@ -27,6 +27,9 @@ dependencies:
   firebase_auth: ^0.16.0
   google_sign_in: ^4.4.4
   cloud_firestore: ^0.12.6
+  firebase_storage: ^3.0.8
+  # video_player: ^0.10.12+2
+  
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +70,7 @@ flutter:
       - assets/CoCo.gif
       - assets/MowMow.gif
       - assets/ChiChi.gif
+      # - assets/Plain Jane.MP4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

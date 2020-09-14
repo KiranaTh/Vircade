@@ -1,9 +1,11 @@
-import 'package:Vircade/avatar.dart';
+import 'package:Vircade/Songlist.dart';
 import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'SplashScreen.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
 import 'Signup.dart';
+import 'package:Vircade/avartarlist.dart';
+import 'Songlist.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,14 +16,15 @@ class MyApp extends StatelessWidget {
         auth: AuthService(),
         child: MaterialApp(
           title: 'Vircade',
-          home: Signup(authFormType: AuthFormType.signUp),
+          home: Songlist(),
           routes: <String, WidgetBuilder>{
             '/signUp': (BuildContext context) =>
                 Signup(authFormType: AuthFormType.signUp),
             '/logIn': (BuildContext context) =>
                 Signup(authFormType: AuthFormType.logIn),
             '/home': (BuildContext context) => HomeController(),
-            '/avatar': (BuildContext context) => Avatar(),
+            '/avatar': (BuildContext context) => AvatarList(),
+            '/song': (BuildContext context) => Songlist(),
           },
         ));
   }

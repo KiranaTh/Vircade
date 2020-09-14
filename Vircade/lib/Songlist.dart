@@ -1,38 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'match.dart';
 
 class Songlist extends StatelessWidget {
+  Future getAvatar() async {
+    var firestore = Firestore.instance;
+
+    QuerySnapshot qn = await firestore.collection('song').getDocuments();
+
+    return qn.documents;
+  }
+
+  int index = 0;
+  String video, song, singer;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: PageView(
       children: <Widget>[
+        // FutureBuilder(
+        //     future: getAvatar(),
+        //     builder: (_, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return Center(
+        //           child: Text("Loading..."),
+        //         );
+        //       } else {
+        //         while (index <= snapshot.data.length) {
+        //           video = 'assets/video1.jpg';
+        //           song = snapshot.data[index].data["song"];
+        //           singer = snapshot.data[index].data["singer"];
+        //           makePage(_, image: video, song: song, singer: singer);
+        //         }
+        //       }
+        //     })
         makePage(
           context,
           image: 'assets/video1.jpg',
           song: "Cha Cha Slide",
           singer: "Mr. C",
-          rating: "MEDIUM",
         ),
         makePage(
           context,
           image: 'assets/video2.jpg',
           song: "Treasure",
           singer: "Bruno Mars",
-          rating: "EASY",
         ),
         makePage(
           context,
           image: 'assets/video3.jpg',
           song: "Like that",
           singer: "Doja Cat",
-          rating: "Hard",
         )
       ],
     ));
   }
 
-  Widget makePage(context, {image, song, singer, rating}) {
+  Widget makePage(context, {image, song, singer}) {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(fit: BoxFit.cover, image: AssetImage(image))),
@@ -73,39 +98,6 @@ class Songlist extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 5.0),
-                          child:
-                              Icon(Icons.star, color: Colors.green, size: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5.0),
-                          child:
-                              Icon(Icons.star, color: Colors.green, size: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5.0),
-                          child:
-                              Icon(Icons.star, color: Colors.green, size: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5.0),
-                          child: Icon(Icons.star, color: Colors.grey, size: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5.0),
-                          child: Icon(Icons.star, color: Colors.grey, size: 20),
-                        ),
-                        Text(
-                          rating,
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontFamily: "Poppins-Regular"),
-                        ),
-                      ],
                     ),
                     SizedBox(
                       height: 20.0,
