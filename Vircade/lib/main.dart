@@ -1,3 +1,4 @@
+import 'package:Vircade/Home.dart';
 import 'package:Vircade/Songlist.dart';
 import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         auth: AuthService(),
         child: MaterialApp(
           title: 'Vircade',
-          home: Songlist(),
+          home: SplashScreen(),
           routes: <String, WidgetBuilder>{
             '/signUp': (BuildContext context) =>
                 Signup(authFormType: AuthFormType.signUp),

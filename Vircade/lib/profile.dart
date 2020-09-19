@@ -1,7 +1,11 @@
+import 'package:Vircade/Signup.dart';
+import 'package:Vircade/services/auth_service.dart';
+import 'package:Vircade/widgets/provider_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'test.dart';
 import 'model/ranklist.dart';
+import 'SplashScreen.dart';
+import 'package:Vircade/services/auth_service.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -32,7 +36,7 @@ class _ProfileState extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'SAM',
+                          'Jill',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 35.0,
@@ -51,8 +55,8 @@ class _ProfileState extends State<Profile> {
                         Container(
                           child: InkWell(
                             child: Container(
-                              width: ScreenUtil().setWidth(220),
-                              height: ScreenUtil().setHeight(50),
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.05,
                               decoration: BoxDecoration(
                                   color: Color(0xFF091F36),
                                   border: Border.all(
@@ -68,7 +72,16 @@ class _ProfileState extends State<Profile> {
                               child: Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () => Test(),
+                                  onTap: () async {
+                                    try {
+                                      AuthService auth =
+                                          Provider.of(context).auth;
+                                      await auth.signOut();
+                                      print("Signed out");
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                  },
                                   child: Center(
                                     child: Text("Edit Profile",
                                         style: TextStyle(

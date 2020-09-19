@@ -1,3 +1,4 @@
+import 'package:Vircade/Home.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'leaderboard.dart';
@@ -10,7 +11,7 @@ class Dancing extends StatefulWidget {
 class _DancingState extends State<Dancing> {
   double _progress = 0;
 
- startTimer() {
+  startTimer() {
     new Timer.periodic(
       Duration(seconds: 1),
       (Timer timer) => setState(
@@ -19,7 +20,7 @@ class _DancingState extends State<Dancing> {
             timer.cancel();
           } else {
             _progress += 0.2;
-            if(_progress == 1){
+            if (_progress == 1) {
               return route();
             }
           }
@@ -28,10 +29,9 @@ class _DancingState extends State<Dancing> {
     );
   }
 
-  route(){
-    Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (context) => LeaderBoard()
-    ));
+  route() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LeaderBoard()));
   }
 
   @override
