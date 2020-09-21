@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
             '/home': (BuildContext context) => HomeController(),
             '/avatar': (BuildContext context) => AvatarList(),
             '/song': (BuildContext context) => Songlist(),
+            '/home1': (BuildContext context) => Home(),
           },
         ));
   }
