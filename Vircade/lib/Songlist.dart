@@ -1,9 +1,10 @@
+import 'package:Vircade/countdownVideo.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:video_player/video_player.dart';
 import 'model/video.dart';
-import 'match.dart';
 import 'homeheader.dart';
+import 'timer.dart';
 
 class Songlist extends StatefulWidget {
   @override
@@ -94,7 +95,6 @@ class VideoPlayerItem extends StatefulWidget {
 
 class _VideoPlayerItemState extends State<VideoPlayerItem> {
   VideoPlayerController _videoController;
-  // bool isShowPlaying = false;
 
   @override
   void initState() {
@@ -144,6 +144,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
                           children: <Widget>[
                             LeftPanel(
                               size: widget.size,
+                              video: widget.video,
                               song: "${widget.song}",
                               singer: "${widget.singer}",
                             ),
@@ -163,11 +164,13 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
 class LeftPanel extends StatelessWidget {
   final String singer;
   final String song;
+  final String video;
   const LeftPanel({
     Key key,
     @required this.size,
     this.singer,
     this.song,
+    this.video,
   }) : super(key: key);
 
   final Size size;
@@ -244,8 +247,15 @@ class LeftPanel extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Match()));
+                    showDialog(
+                      context: context,
+                      builder: (_) => new Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.0)),
+                          elevation: 0.0,
+                          backgroundColor: Colors.transparent,
+                          child: dialogContent(context, video)),
+                    );
                   },
                   child: Center(
                     child: Text("Let's Dance",
@@ -261,6 +271,121 @@ class LeftPanel extends StatelessWidget {
           ),
           SizedBox(
             height: 20.0,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget dialogContent(BuildContext context, video) {
+    return Container(
+      margin: EdgeInsets.only(left: 0.0, right: 0.0),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 18.0, left: 9.0, right: 9.0),
+            margin: EdgeInsets.only(top: 13.0, right: 8.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(16.0),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 0.0,
+                    offset: Offset(0.0, 0.0),
+                  ),
+                ]),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: new Text("Select mode",
+                      style: TextStyle(
+                          fontSize: 30.0,
+                          color: Colors.blue,
+                          fontFamily: "Poppins-Bold",
+                          letterSpacing: 1.0)),
+                ) //
+                    ),
+                SizedBox(height: 24.0),
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[300],
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    child: Text(
+                      "Single mode",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25.0,
+                          fontFamily: "Poppins-Bold",
+                          letterSpacing: 1.0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  onTap: () {
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => CountdownVideo(
+                    //               video: video,
+                    //             )));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => TimerCount(
+                              video: video,
+                            )));
+                  },
+                ),
+                SizedBox(height: 24.0),
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                    decoration: BoxDecoration(
+                      color: Colors.red[300],
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    child: Text(
+                      "Battle mode",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25.0,
+                          fontFamily: "Poppins-Bold",
+                          letterSpacing: 1.0),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.popAndPushNamed(context, "/match");
+                  },
+                ),
+                SizedBox(height: 24.0),
+              ],
+            ),
+          ),
+          Positioned(
+            right: 0.0,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Align(
+                alignment: Alignment.topRight,
+                child: CircleAvatar(
+                  radius: 14.0,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.close, color: Colors.red),
+                ),
+              ),
+            ),
           ),
         ],
       ),

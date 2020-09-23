@@ -7,6 +7,7 @@ import 'package:Vircade/widgets/provider_widget.dart';
 import 'Signup.dart';
 import 'package:Vircade/avartarlist.dart';
 import 'Songlist.dart';
+import 'match.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
             '/avatar': (BuildContext context) => AvatarList(),
             '/song': (BuildContext context) => Songlist(),
             '/home1': (BuildContext context) => Home(),
+            '/match': (BuildContext context) => Match(),
           },
         ));
   }
