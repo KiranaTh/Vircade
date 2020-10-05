@@ -1,5 +1,6 @@
-import 'dart:ffi';
-
+import 'package:Vircade/widgets/provider_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
 import 'dart:async';
@@ -10,42 +11,12 @@ class Dancing extends StatefulWidget {
   _DancingState createState() => _DancingState();
 }
 
-class Accelerometer {
-  String userUID;
-  String song;
-  Timer time;
-  List<Data> datas;
-
-  Accelerometer({this.userUID, this.song, this.time, this.datas});
-  Map<String, dynamic> toJson() {
-    return {
-      "userUID": userUID,
-      "song": song,
-      "time": time,
-      "Data": datas.map((data) => data.toJson()).toList(),
-    };
-  }
-}
-
-class Data {
-  Double x;
-  Double y;
-  Double z;
-
-  Data({this.x, this.y, this.z});
-  Map<String, dynamic> toJson() {
-    return {
-      "x": x,
-      "y": y,
-      "z": z,
-    };
-  }
-}
-
 class _DancingState extends State<Dancing> {
+  final firestoreInstance = Firestore.instance;
+  int i = 1;
   double _progress = 0;
-  Accelerometer accelerometer;
   List<double> _accelerometerValues;
+  List<List<String>> datas;
   List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
 
@@ -59,7 +30,7 @@ class _DancingState extends State<Dancing> {
           } else {
             _progress += 1 / 15;
             if (_progress >= 1) {
-              print(_accelerometerValues);
+              timer.cancel();
               return route();
             }
           }
@@ -69,8 +40,25 @@ class _DancingState extends State<Dancing> {
   }
 
   route() {
+    print(datas);
+    updateData();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LeaderBoard()));
+  }
+
+  void updateData() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    firestoreInstance
+        .collection("accelerometer")
+        .document(firebaseUser.uid)
+        .setData({
+      "userUID": uid,
+      "time": DateTime.now().millisecondsSinceEpoch,
+      "Data": datas.toList(),
+    }).then((_) {
+      print("success!");
+    });
   }
 
   @override
@@ -83,7 +71,8 @@ class _DancingState extends State<Dancing> {
     _streamSubscriptions
         .add(accelerometerEvents.listen((AccelerometerEvent event) {
       setState(() {
-        //_accelerometerValues = <double>[event.x, event.y, event.z];
+        _accelerometerValues = <double>[event.x, event.y, event.z];
+        i++;
       });
     }));
   }
@@ -100,8 +89,7 @@ class _DancingState extends State<Dancing> {
   Widget build(BuildContext context) {
     final List<String> accelerometer =
         _accelerometerValues?.map((double v) => v.toStringAsFixed(8))?.toList();
-    //print(accelerometer);
-
+    datas = List.generate(i, (index) => accelerometer);
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
         body: Container(

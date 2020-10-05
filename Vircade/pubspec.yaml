@@ -30,7 +30,6 @@ dependencies:
   firebase_storage: ^3.0.8
   video_player: ^0.10.11+2
   sensors: ^0.4.2+5
-  matrix2d: ^0.0.7
   
 
 dev_dependencies:
