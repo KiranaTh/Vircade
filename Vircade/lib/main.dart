@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         auth: AuthService(),
         child: MaterialApp(
           title: 'Vircade',
-          home: Dancing(),
+          home: SplashScreen(),
           routes: <String, WidgetBuilder>{
             '/signUp': (BuildContext context) =>
                 Signup(authFormType: AuthFormType.signUp),
