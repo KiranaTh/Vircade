@@ -1,11 +1,9 @@
+import 'package:Vircade/showScore.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
 import 'dart:async';
-import 'leaderboard.dart';
 
 class Dancing extends StatefulWidget {
   @override
@@ -13,7 +11,6 @@ class Dancing extends StatefulWidget {
 }
 
 class _DancingState extends State<Dancing> {
-  //final firestoreInstance = Firestore.instance;
   final databaseReference = FirebaseDatabase.instance.reference();
   int i = 1;
   double _progress = 0;
@@ -45,25 +42,16 @@ class _DancingState extends State<Dancing> {
     print(datas);
     updateData();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LeaderBoard()));
+        context, MaterialPageRoute(builder: (context) => ShowScore()));
   }
 
   void updateData() async {
-    //var firebaseUser = await FirebaseAuth.instance.currentUser();
     final uid = await Provider.of(context).auth.getCurrentUID();
-    // firestoreInstance
-    //     .collection("accelerometer")
-    //     .document(firebaseUser.uid)
-    //     .setData({
-    //   "userUID": uid,
-    //   "time": DateTime.now().millisecondsSinceEpoch,
-    //   "Data": datas.toList(),
-    // }).then((_) {
-    //   print("success!");
-    // });
-    databaseReference
-        .child(uid)
-        .set({'time': DateTime.now().millisecondsSinceEpoch, 'data': datas});
+    databaseReference.push().set({
+      'time': DateTime.now().millisecondsSinceEpoch,
+      'data': datas,
+      'userUID': uid
+    });
   }
 
   @override

@@ -1,4 +1,3 @@
-import 'package:Vircade/countdownVideo.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:video_player/video_player.dart';
@@ -58,9 +57,33 @@ class _VideoPlayersState extends State<VideoPlayers>
         future: getVideo(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError || !snapshot.hasData) {
-            return Center(
-              child: Text("Loading..."),
-            );
+            return Scaffold(
+                backgroundColor: Color(0xFF091F36),
+                body: Container(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          height: 80.0,
+                          width: 80.0,
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Text(
+                          "LOADING",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontFamily: "Poppins-Bold"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ));
           } else {
             return RotatedBox(
                 quarterTurns: 1,

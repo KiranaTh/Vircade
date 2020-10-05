@@ -1,6 +1,7 @@
 import 'package:Vircade/Home.dart';
 import 'package:Vircade/Songlist.dart';
 import 'package:Vircade/dancing.dart';
+import 'showScore.dart';
 import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'SplashScreen.dart';

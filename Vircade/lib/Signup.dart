@@ -14,15 +14,6 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  route() {
-    Navigator.of(context).pushReplacementNamed('/signUp');
-  }
-
-  // test() {
-  //   Navigator.pushReplacement(
-  //       context, MaterialPageRoute(builder: (context) => Test()));
-  // }
-
   AuthFormType authFormType;
   _SignupState({this.authFormType});
 
@@ -379,9 +370,7 @@ class _SignupState extends State<Signup> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () =>
-                  // statesignUp == true ? _navigateAvatar(context) :
-                  submit(),
+              onTap: () => submit(),
               child: Center(
                 child: Text(_submitButton,
                     style: TextStyle(
@@ -396,17 +385,6 @@ class _SignupState extends State<Signup> {
       ),
     ];
   }
-
-  // _navigateAvatar(BuildContext context) async {
-  //   User user = new User(userNameController.text);
-  //   final result = await Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (context) => Avatar(
-  //                 user: user,
-  //               )));
-  //   print(result);
-  // }
 }
 
 InputDecoration buildSignUpInputDecoration(String hint) {

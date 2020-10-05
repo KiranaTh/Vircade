@@ -74,6 +74,7 @@ flutter:
       - assets/ChiChi.gif
       - assets/Likethat.MP4
       - assets/Treasure.mp4
+      - assets/trophy.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
