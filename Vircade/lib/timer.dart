@@ -62,19 +62,33 @@ class _TimerCountState extends State<TimerCount> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("It will countdown in",
+              Text("Start remember",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Poppins-Bold",
-                    fontSize: 30,
+                    fontSize: 25,
                   )),
-              Text("$_start",
+              Text("the move",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Poppins-Bold",
+                    fontSize: 25,
+                  )),
+              Text("in",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Poppins-Bold",
+                    fontSize: 25,
+                  )),
+              Text("$_start sec",
                   style: TextStyle(
                     color: Colors.redAccent,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Poppins-Bold",
-                    fontSize: 25,
+                    fontSize: 35,
                   ))
             ],
           ),

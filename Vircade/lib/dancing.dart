@@ -1,5 +1,7 @@
-import 'package:Vircade/Home.dart';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:sensors/sensors.dart';
 import 'dart:async';
 import 'leaderboard.dart';
 
@@ -8,19 +10,56 @@ class Dancing extends StatefulWidget {
   _DancingState createState() => _DancingState();
 }
 
+class Accelerometer {
+  String userUID;
+  String song;
+  Timer time;
+  List<Data> datas;
+
+  Accelerometer({this.userUID, this.song, this.time, this.datas});
+  Map<String, dynamic> toJson() {
+    return {
+      "userUID": userUID,
+      "song": song,
+      "time": time,
+      "Data": datas.map((data) => data.toJson()).toList(),
+    };
+  }
+}
+
+class Data {
+  Double x;
+  Double y;
+  Double z;
+
+  Data({this.x, this.y, this.z});
+  Map<String, dynamic> toJson() {
+    return {
+      "x": x,
+      "y": y,
+      "z": z,
+    };
+  }
+}
+
 class _DancingState extends State<Dancing> {
   double _progress = 0;
+  Accelerometer accelerometer;
+  List<double> _accelerometerValues;
+  List<StreamSubscription<dynamic>> _streamSubscriptions =
+      <StreamSubscription<dynamic>>[];
 
   startTimer() {
     new Timer.periodic(
       Duration(seconds: 1),
       (Timer timer) => setState(
         () {
-          if (_progress == 1) {
+          if (_progress >= 1) {
             timer.cancel();
           } else {
-            _progress += 0.2;
-            if (_progress == 1) {
+            _progress += 1 / 15;
+            if (_progress >= 1) {
+              print(_accelerometerValues);
               return route();
             }
           }
@@ -41,10 +80,28 @@ class _DancingState extends State<Dancing> {
       _progress = 0;
     });
     startTimer();
+    _streamSubscriptions
+        .add(accelerometerEvents.listen((AccelerometerEvent event) {
+      setState(() {
+        //_accelerometerValues = <double>[event.x, event.y, event.z];
+      });
+    }));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<String> accelerometer =
+        _accelerometerValues?.map((double v) => v.toStringAsFixed(8))?.toList();
+    //print(accelerometer);
+
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
         body: Container(
@@ -77,6 +134,13 @@ class _DancingState extends State<Dancing> {
                 SizedBox(
                   height: 20.0,
                 ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Accelerometer: $accelerometer',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
               ],
             ),
           ),
