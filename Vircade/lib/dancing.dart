@@ -47,10 +47,8 @@ class _DancingState extends State<Dancing> {
 
   void updateData() async {
     final uid = await Provider.of(context).auth.getCurrentUID();
-    databaseReference.push().set({
-      'time': DateTime.now().millisecondsSinceEpoch,
+    databaseReference.child("ML").push().child(uid).set({
       'data': datas,
-      'userUID': uid
     });
   }
 

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:video_player/video_player.dart';
 import 'model/video.dart';
 import 'homeheader.dart';
 import 'timer.dart';
+import 'widgets/provider_widget.dart';
+import 'match.dart';
+// import 'services/match_service.dart';
 
 class Songlist extends StatefulWidget {
   @override
@@ -277,7 +281,7 @@ class LeftPanel extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16.0)),
                           elevation: 0.0,
                           backgroundColor: Colors.transparent,
-                          child: dialogContent(context, video)),
+                          child: dialogContent(context, video, song)),
                     );
                   },
                   child: Center(
@@ -300,7 +304,16 @@ class LeftPanel extends StatelessWidget {
     );
   }
 
-  Widget dialogContent(BuildContext context, video) {
+  Widget dialogContent(BuildContext context, video, song) {
+    final databaseReference = FirebaseDatabase.instance.reference();
+
+    void updateData() async {
+      final uid = await Provider.of(context).auth.getCurrentUID();
+      databaseReference..child("waitingRoom").child(song).update({"$uid": uid});
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Match(song: song)));
+    }
+
     return Container(
       margin: EdgeInsets.only(left: 0.0, right: 0.0),
       child: Stack(
@@ -356,12 +369,6 @@ class LeftPanel extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    // Navigator.pushReplacement(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => CountdownVideo(
-                    //               video: video,
-                    //             )));
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => TimerCount(
                               video: video,
@@ -387,7 +394,8 @@ class LeftPanel extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.popAndPushNamed(context, "/match");
+                    //MatchDatabase.createWaitingRoom(context, song);
+                    updateData();
                   },
                 ),
                 SizedBox(height: 24.0),

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:Vircade/Signup.dart';
-
 import 'Home.dart';
 import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';

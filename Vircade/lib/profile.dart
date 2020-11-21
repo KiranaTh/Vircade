@@ -3,7 +3,7 @@ import 'package:Vircade/services/auth_service.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'test.dart';
-import 'model/ranklist.dart';
+import 'model/score.dart';
 import 'SplashScreen.dart';
 import 'package:Vircade/services/auth_service.dart';
 
@@ -83,7 +83,7 @@ class _ProfileState extends State<Profile> {
                                     }
                                   },
                                   child: Center(
-                                    child: Text("Edit Profile",
+                                    child: Text("Sign Out",
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontFamily: "Poppins-Bold",
@@ -136,7 +136,7 @@ class _ProfileState extends State<Profile> {
                                 BuildContext context,
                                 int index,
                               ) {
-                                final User top = tops[index];
+                                final Score top = tops[index];
                                 return Container(
                                     child: Container(
                                   margin: EdgeInsets.only(
