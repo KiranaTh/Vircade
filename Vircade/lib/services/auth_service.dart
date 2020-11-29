@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -23,20 +24,21 @@ class AuthService {
 
   // Email & Password Sign Up
   Future<String> createUserWithEmailAndPassword(
-      String email, String password, String name) async {
+      String email, String password, String name, String imageUrl) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
     // Update the username
-    await updateUserName(name, authResult.user);
+    await updateUserName(name, imageUrl, authResult.user);
     return authResult.user.uid;
   }
 
-  Future updateUserName(String name, FirebaseUser currentUser) async {
+  Future updateUserName(String name, String imageUrl, FirebaseUser currentUser) async {
     var userUpdateInfo = UserUpdateInfo();
     userUpdateInfo.displayName = name;
+    userUpdateInfo.photoUrl = imageUrl;
     await currentUser.updateProfile(userUpdateInfo);
     await currentUser.reload();
   }

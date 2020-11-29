@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 
 class TimerCount extends StatefulWidget {
   final String video;
-  TimerCount({Key key, @required this.video}) : super(key: key);
+  final String gameID;
+  final String song;
+  final String uid;
+  TimerCount({Key key, @required this.video, @required this.gameID, @required this.song, @required this.uid}) : super(key: key);
 
   @override
   _TimerCountState createState() => _TimerCountState();
@@ -25,10 +28,11 @@ class _TimerCountState extends State<TimerCount> {
   }
 
   route() {
+    _timer.cancel();
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => CountdownVideo(video: widget.video)));
+            builder: (context) => CountdownVideo(video: widget.video, gameID: widget.gameID, song: widget.song, uid: widget.uid)));
   }
 
   void countdown() {
@@ -39,6 +43,7 @@ class _TimerCountState extends State<TimerCount> {
         () {
           if (_start < 1) {
             timer.cancel();
+            _timer.cancel();
           } else {
             _start = _start - 1;
           }

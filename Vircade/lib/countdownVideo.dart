@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 
 class CountdownVideo extends StatefulWidget {
   final String video;
-  CountdownVideo({Key key, @required this.video}) : super(key: key);
+  final String gameID;
+  final String song;
+  final String uid;
+  CountdownVideo({Key key, @required this.video, @required this.gameID, @required this.song, @required this.uid}) : super(key: key);
 
   @override
   _CountdownVideoState createState() => _CountdownVideoState();
@@ -27,7 +30,7 @@ class _CountdownVideoState extends State<CountdownVideo> {
         if (_videoController.value.initialized &&
             !_videoController.value.isPlaying) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Dancing()));
+              context, MaterialPageRoute(builder: (context) => Dancing(gameID: widget.gameID, song: widget.song, uid: widget.uid)));
         }
       })
       ..play().then((value) {

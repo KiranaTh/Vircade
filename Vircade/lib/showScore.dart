@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ShowScore extends StatefulWidget {
-  ShowScore({Key key}) : super(key: key);
+  int score;
+  ShowScore({Key key, @required this.score}) : super(key: key);
 
   @override
   _ShowScoreState createState() => _ShowScoreState();
@@ -10,6 +11,7 @@ class ShowScore extends StatefulWidget {
 class _ShowScoreState extends State<ShowScore> {
   @override
   Widget build(BuildContext context) {
+    String scoreData = widget.score.toString();
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
         body: Center(
@@ -30,7 +32,7 @@ class _ShowScoreState extends State<ShowScore> {
                     fontFamily: "Poppins-Bold"),
               ),
               Text(
-                '23234',
+                scoreData,
                 style: TextStyle(
                     color: Colors.yellow,
                     height: 1.0,

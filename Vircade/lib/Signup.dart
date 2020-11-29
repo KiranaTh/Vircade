@@ -2,7 +2,6 @@ import 'package:Vircade/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
-// import 'package:Vircade/model/user.dart';
 
 enum AuthFormType { logIn, signUp, reset }
 
@@ -20,6 +19,8 @@ class _SignupState extends State<Signup> {
   final formKey = GlobalKey<FormState>();
 
   String _email, _password, _name, _warning;
+  String _imageUrl = "https://firebasestorage.googleapis.com/v0/b/vircade-4c1d4.appspot.com/o/PaoPao.gif?alt=media&token=43825617-59d3-46b7-b189-3555a3e88d6f";
+
 
   TextEditingController userNameController = new TextEditingController();
 
@@ -64,11 +65,10 @@ class _SignupState extends State<Signup> {
           });
         } else {
           String uid = await auth.createUserWithEmailAndPassword(
-              _email, _password, _name);
+              _email, _password, _name, _imageUrl);
           print("Signed in with new ID $uid");
           String username = await auth.getCurrentuserName();
           print("username: $username");
-          Navigator.of(context).pushReplacementNamed('/avatar');
         }
       } catch (e) {
         setState(() {

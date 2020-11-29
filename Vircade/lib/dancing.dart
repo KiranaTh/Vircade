@@ -1,11 +1,15 @@
-import 'package:Vircade/showScore.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
 import 'dart:async';
+import 'calculating.dart';
 
 class Dancing extends StatefulWidget {
+  final String gameID;
+  final String song;
+  final String uid;
+  Dancing({Key key, @required this.gameID, @required this.song, @required this.uid}) : super(key: key);
   @override
   _DancingState createState() => _DancingState();
 }
@@ -38,17 +42,21 @@ class _DancingState extends State<Dancing> {
     );
   }
 
-  route() {
+  route(){
+    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
     print(datas);
     updateData();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => ShowScore()));
+        context, MaterialPageRoute(builder: (context) => Calculating(gameID: widget.gameID, song: widget.song, uid: widget.uid)));
   }
 
   void updateData() async {
+    print("widget.gameID: ${widget.gameID} widget.uid: ${widget.uid} widget.song: ${widget.song}");
     final uid = await Provider.of(context).auth.getCurrentUID();
-    databaseReference.child("ML").push().child(uid).set({
-      'data': datas,
+    databaseReference.child("games").child(widget.gameID).child(uid).update({
+      'ML': datas,
     });
   }
 

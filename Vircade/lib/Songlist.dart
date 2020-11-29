@@ -7,7 +7,8 @@ import 'homeheader.dart';
 import 'timer.dart';
 import 'widgets/provider_widget.dart';
 import 'match.dart';
-// import 'services/match_service.dart';
+import 'dart:math';
+
 
 class Songlist extends StatefulWidget {
   @override
@@ -31,6 +32,7 @@ class VideoPlayers extends StatefulWidget {
 class _VideoPlayersState extends State<VideoPlayers>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  QuerySnapshot qn;
 
   @override
   void initState() {
@@ -40,7 +42,10 @@ class _VideoPlayersState extends State<VideoPlayers>
 
   getLength() async {
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection('song').getDocuments();
+    QuerySnapshot result = await firestore.collection('song').getDocuments();
+    setState(() {
+      this.qn = result;
+    });
     _tabController = TabController(length: qn.documents.length, vsync: this);
   }
 
@@ -93,7 +98,7 @@ class _VideoPlayersState extends State<VideoPlayers>
                 quarterTurns: 1,
                 child: TabBarView(
                     controller: _tabController,
-                    children: List.generate(songs.length, (index) {
+                    children: List.generate(qn.documents.length, (index) {
                       return VideoPlayerItem(
                         video: songs[index]['video'],
                         size: size,
@@ -305,13 +310,24 @@ class LeftPanel extends StatelessWidget {
   }
 
   Widget dialogContent(BuildContext context, video, song) {
-    final databaseReference = FirebaseDatabase.instance.reference();
+    final databaseReference = FirebaseDatabase.instance;
+    var gameID = generateGameID();
 
-    void updateData() async {
+
+    void battleMode() async {
       final uid = await Provider.of(context).auth.getCurrentUID();
-      databaseReference..child("waitingRoom").child(song).update({"$uid": uid});
+      databaseReference.reference().child("waitingRoom").child(song).update({"$uid": "waiting"});
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Match(song: song)));
+          context, MaterialPageRoute(builder: (context) => Match(song: song, uid: uid, video: video)));
+    }
+
+    void singleMode() async{
+      final uid = await Provider.of(context).auth.getCurrentUID();
+      databaseReference.reference().child("games").child(gameID).update({"time": ServerValue.timestamp, "song": song, '$uid': {"ML": "", "score": 0}});
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => TimerCount(
+            video: video, gameID: gameID, song: song, uid: uid,
+          )));
     }
 
     return Container(
@@ -369,10 +385,7 @@ class LeftPanel extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => TimerCount(
-                              video: video,
-                            )));
+                    singleMode();
                   },
                 ),
                 SizedBox(height: 24.0),
@@ -395,7 +408,7 @@ class LeftPanel extends StatelessWidget {
                   ),
                   onTap: () {
                     //MatchDatabase.createWaitingRoom(context, song);
-                    updateData();
+                    battleMode();
                   },
                 ),
                 SizedBox(height: 24.0),
@@ -422,4 +435,13 @@ class LeftPanel extends StatelessWidget {
       ),
     );
   }
+}
+generateGameID() {
+  var possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var gameID = "";
+  var rng = new Random();
+  for (var i = 0; i < 20; i++) {
+    gameID += '${possibleChars[rng.nextInt(possibleChars.length-1)]}';
+  }
+  return gameID;
 }

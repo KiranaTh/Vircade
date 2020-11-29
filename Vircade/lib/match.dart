@@ -1,114 +1,79 @@
 import 'package:Vircade/SplashScreen.dart';
-import 'package:Vircade/services/match_service.dart';
+import 'package:Vircade/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
-import 'dancing.dart';
+
 
 class Match extends StatefulWidget {
   final String song;
+  final String uid;
+  final String video;
   Match({
     Key key,
     @required this.song,
+    @required this.uid,
+    @required this.video,
   }) : super(key: key);
   @override
   _MatchState createState() => _MatchState();
 }
 
 class _MatchState extends State<Match> {
-//  final databaseReference = FirebaseDatabase.instance.reference();
-//  StreamSubscription<Event> _addedSubscription;
-//  Query matching;
-  //List<Waiting> waitingList;
+  final databaseReference = FirebaseDatabase.instance.reference();
+  Timer timer;
+  String gameID;
+
 
   @override
   void initState() {
+
+   databaseReference.child("waitingRoom").child(widget.song).onValue.listen((event) {
+      var snapshot = event.snapshot;
+      gameID = snapshot.value[widget.uid];
+      print('Value is $gameID');
+      if (gameID != 'waiting') {
+        databaseReference.child("games").child(gameID).once().then((DataSnapshot data){
+          print("data snapshot: ${data.key}");
+          gameID = data.key;
+          route2(gameID);
+          QuiteWaitingRoom();
+        });
+      }
+    });
+   setState(() {
+     timer = new Timer(const Duration(minutes: 1),(){
+       route1();
+       QuiteWaitingRoom();
+     });
+   });
     super.initState();
-    startTimer();
-    //waitingList = new List();
-//    String song = widget.song;
-//    print("widget.song $song ");
-//    matching = databaseReference.child("waitingRoom").child(widget.song);
-//    _addedSubscription = matching.onChildAdded.listen(onEntryAdded);
   }
 
-  startTimer() async {
-    var duration = Duration(minutes: 6);
-    return Timer(duration, route1);
+  QuiteWaitingRoom(){
+    databaseReference.child("waitingRoom").child(widget.song).child(widget.uid).remove();
   }
 
   route1() {
+    print("out of time");
+    timer.cancel();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeController()));
   }
 
-  route2() {
+  route2(String gameID) {
+    print("can change page");
+    timer.cancel();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Dancing()));
+        context, MaterialPageRoute(builder: (context) => TimerCount(video: widget.video, gameID: gameID, song: widget.song, uid: widget.uid)));
   }
 
   @override
   void dispose() {
-    //_addedSubscription.cancel();
     super.dispose();
+    timer.cancel();
   }
 
-  onEntryAdded(Event event) {
-    setState(() {
-//      waitingList.add(Waiting.fromSnapshot(event.snapshot));
-//      print(waitingList.toString());
-//      DatabaseReference db = databaseReference.child("game").push();
-//      if (waitingList.length == 2) {
-//        for (int i = 0; i <= waitingList.length-1; i++) {
-//          String uid = waitingList.toString();
-//          print("waitingList.toString() $uid ");
-//          db.child("player$i").set({
-//            "userUID": uid,
-//            "score": 0
-//          }).then((_) {
-//            databaseReference
-//                .child("waitingRoom")
-//                .child(widget.song)
-//                .child(uid)
-//                .remove()
-//                .then((_) {
-//              print("Delete $uid successful");
-//              setState(() {
-//                waitingList.removeAt(i);
-//              });
-//            });
-//          });
-//        }
-//        db.set({'timestamp': DateTime.now().millisecondsSinceEpoch}).then(
-//            route2());
-//      }
-    });
-//    DatabaseReference db = databaseReference.child("game").push();
-//    if (waitingList.length == 2) {
-//      for (int i = 0; i <= waitingList.length-1; i++) {
-//        String uid = waitingList.toString();
-//        print("waitingList.toString() $uid ");
-//        db.child("player$i").set({
-//          "userUID": uid,
-//          "score": 0
-//        }).then((_) {
-//          databaseReference
-//              .child("waitingRoom")
-//              .child(widget.song)
-//              .child(uid)
-//              .remove()
-//              .then((_) {
-//            print("Delete $uid successful");
-//            setState(() {
-//              waitingList.removeAt(i);
-//            });
-//          });
-//        });
-//      }
-//      db.set({'timestamp': DateTime.now().millisecondsSinceEpoch}).then(
-//          route2());
-//    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,3 +106,4 @@ class _MatchState extends State<Match> {
         ));
   }
 }
+
