@@ -1,6 +1,8 @@
 import 'package:Vircade/Signup.dart';
 import 'package:Vircade/services/auth_service.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'test.dart';
 import 'model/score.dart';
@@ -13,6 +15,48 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  var uid;
+  var username;
+  var imageUrl;
+  var song;
+  var score;
+
+//  getData() async {
+//    var firestore = Firestore.instance;
+//
+//    uid = await Provider.of(context).auth.getCurrentUID();
+//    username = await Provider.of(context).auth.getCurrentuserName();
+//    imageUrl = await Provider.of(context).auth.getCurrentAvatar();
+//
+////    final result = await Firestore.instance.collection('dancing').document(uid).get();
+////    documents = result.data;
+//
+//
+//  }
+//  Future getDocument() async {
+//    uid = await Provider.of(context).auth.getCurrentUID();
+//    username = await Provider.of(context).auth.getCurrentuserName();
+//    imageUrl = await Provider.of(context).auth.getCurrentAvatar();
+//
+//
+//    Firestore.instance.collection("users").document(uid).get().then((querySnapshot) {
+//      print("result");
+//      print(querySnapshot.data);
+//
+//      var userModel = new UserModel();
+//      userModel.fromMap(uid, querySnapshot.data);
+//      song = userModel.song;
+//      score = userModel.score;
+//    });
+//  }
+
+  @override
+  void initState() {
+//    getDocument();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,21 +80,22 @@ class _ProfileState extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Jill',
+                          "Jill",
+//                          username,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 35.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          'Win: 8',
-                          style: TextStyle(
-                            color: Colors.greenAccent,
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+//                        Text(
+//                          'Win: 8',
+//                          style: TextStyle(
+//                            color: Colors.greenAccent,
+//                            fontSize: 30.0,
+//                            fontWeight: FontWeight.bold,
+//                          ),
+//                        ),
                         SizedBox(height: 5.0),
                         Container(
                           child: InkWell(
@@ -128,15 +173,17 @@ class _ProfileState extends State<Profile> {
                         minChildSize: 0.96,
                         builder: (BuildContext context,
                             ScrollController scrollController) {
+//                          getDocument();
                           return Container(
                             child: ListView.builder(
                               controller: scrollController,
-                              itemCount: tops.length - 5,
+                              itemCount: 5,
                               itemBuilder: (
                                 BuildContext context,
                                 int index,
                               ) {
                                 final Score top = tops[index];
+
                                 return Container(
                                     child: Container(
                                   margin: EdgeInsets.only(
@@ -159,7 +206,8 @@ class _ProfileState extends State<Profile> {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
-                                        top.name,
+//                                        song,
+                                      top.name,
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 15.0,
@@ -167,7 +215,8 @@ class _ProfileState extends State<Profile> {
                                         ),
                                       ),
                                       Text(
-                                        top.score,
+//                                        score,
+                                      top.score,
                                         style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize: 15.0,
@@ -245,6 +294,23 @@ class _ProfileState extends State<Profile> {
             //)
           ))
         ]));
+  }
+}
+class UserModel {
+  String time = "";
+  String song;
+  String score;
+
+  UserModel({this.song, this.score});
+
+  void fromMap(String time, Map map) {
+    this.time = time;
+    this.song = map["song"];
+    this.score = map["score"];
+  }
+
+  String getId() {
+    return this.time;
   }
 }
 

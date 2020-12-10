@@ -32,15 +32,15 @@ final Score greg = Score(
     imageUrl: 'assets/video1.jpg',
     score: '49677');
 final Score emma = Score(
-    id: 5, name: 'Like that', imageUrl: 'assets/video1.jpg', score: '46547');
+    id: 5, name: 'Like that', imageUrl: 'assets/video1.jpg', score: '465');
 final Score dean = Score(
-    id: 6, name: 'Treasure', imageUrl: 'assets/video1.jpg', score: '43234');
+    id: 6, name: 'Treasure', imageUrl: 'assets/video1.jpg', score: '432');
 final Score tiffany = Score(
-    id: 7, name: 'Plain Jane', imageUrl: 'assets/video1.jpg', score: '34325');
+    id: 7, name: 'Plain Jane', imageUrl: 'assets/video1.jpg', score: '343');
 final Score jessica = Score(
-    id: 8, name: 'Plain Jane', imageUrl: 'assets/video1.jpg', score: '21434');
+    id: 8, name: 'Plain Jane', imageUrl: 'assets/video1.jpg', score: '214');
 final Score krystal = Score(
-    id: 9, name: 'Lose Control', imageUrl: 'assets/video1.jpg', score: '15694');
+    id: 9, name: 'Lose Control', imageUrl: 'assets/video1.jpg', score: '156');
 
 // FAVORITE CONTACTS
 List<Score> tops = [

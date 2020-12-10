@@ -33,6 +33,8 @@ final User jessica =
 final User krystal =
     User(id: 9, name: 'KRYSTAL', imageUrl: 'assets/video1.jpg', score: '15694');
 
+//import 'package:cloud_firestore/cloud_firestore.dart';
+
 // FAVORITE CONTACTS
 List<User> tops = [
   sam,
@@ -46,5 +48,44 @@ List<User> tops = [
   jessica,
   krystal
 ];
+//import 'package:cloud_firestore/cloud_firestore.dart';
+//
+//
+//class User {
+//  String uid;
+//  String song;
+//  String score;
+//
+//  User.fromJson(this.uid, Map data) {
+//    score = data['score'];
+//    song = data['song'];
+//  }
+//}
 
-// emma,dean, tiffany, jessica, krystal
+//import 'package:cloud_firestore/cloud_firestore.dart';
+//
+//var act = [];
+//Future<List> getAct() async {
+//  var firestore = Firestore.instance;
+//  QuerySnapshot qn = await firestore.collection('activities').getDocuments();
+//  if (qn.documents.length != 0) {
+//    for (int i = 0; i < qn.documents.length; i++) {
+//      act.add(qn.documents[i]);
+//    }
+//  } else {
+//    print("No data");
+//  }
+//  return act;
+//}
+//class RankList {
+//  String time;
+//  Map<String, dynamic> sets = {};
+//  String score;
+//  String song;
+//  RankList(this.time, this.song, this.score);
+//  RankList.fromMap(json)
+//      : song = json['song'].toString(),
+//        score = json['score'].toString();
+//
+//
+//}

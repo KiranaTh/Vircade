@@ -2,6 +2,7 @@ import 'package:Vircade/widgets/provider_widget.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
+import 'package:video_player/video_player.dart';
 import 'dart:async';
 import 'calculating.dart';
 
@@ -9,7 +10,8 @@ class Dancing extends StatefulWidget {
   final String gameID;
   final String song;
   final String uid;
-  Dancing({Key key, @required this.gameID, @required this.song, @required this.uid}) : super(key: key);
+  final String video;
+  Dancing({Key key, @required this.gameID, @required this.song, @required this.uid, @required this.video}) : super(key: key);
   @override
   _DancingState createState() => _DancingState();
 }
@@ -59,26 +61,42 @@ class _DancingState extends State<Dancing> {
       'ML': datas,
     });
   }
+  VideoPlayerController _videoController;
 
   @override
   void initState() {
-    super.initState();
-    setState(() {
-      _progress = 0;
-    });
-    startTimer();
-    _streamSubscriptions
-        .add(accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        _accelerometerValues = <double>[event.x, event.y, event.z];
-        i++;
+    _videoController = VideoPlayerController.network(widget.video)
+      ..initialize()
+      ..setLooping(false)
+      ..addListener(() {
+        if (_videoController.value.initialized &&
+            !_videoController.value.isPlaying) {
+          route();
+        }
+      })
+      ..play().then((value) {
+        setState(() {
+          _progress = 0;
+        });
+        startTimer();
+        VideoPlayer(_videoController);
+        _streamSubscriptions
+            .add(accelerometerEvents.listen((AccelerometerEvent event) {
+          setState(() {
+            _accelerometerValues = <double>[event.x, event.y, event.z];
+            i++;
+          });
+        }));
       });
-    }));
+    super.initState();
   }
+
+
 
   @override
   void dispose() {
     super.dispose();
+    _videoController.dispose();
     for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
       subscription.cancel();
     }

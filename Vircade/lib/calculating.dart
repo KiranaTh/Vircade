@@ -41,7 +41,7 @@ class _Calculating extends State<Calculating> {
               "score": score,
               "song": widget.song}
             );
-            db.collection("history").document(widget.uid).setData(data.toMap(), merge: true
+            db.collection("dancing").document(widget.uid).setData(data.toMap(), merge: true
             ).then((value){
               route1();
             });
@@ -61,7 +61,7 @@ class _Calculating extends State<Calculating> {
         "score": 0,
         "song": widget.song}
       );
-      db.collection("history").document(widget.uid).setData(data.toMap(), merge: true
+      db.collection("dancing").document(widget.uid).setData(data.toMap(), merge: true
       ).then((value){
         route1();
       });

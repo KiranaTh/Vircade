@@ -30,7 +30,7 @@ class _CountdownVideoState extends State<CountdownVideo> {
         if (_videoController.value.initialized &&
             !_videoController.value.isPlaying) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Dancing(gameID: widget.gameID, song: widget.song, uid: widget.uid)));
+              context, MaterialPageRoute(builder: (context) => Dancing(gameID: widget.gameID, song: widget.song, uid: widget.uid, video: widget.video)));
         }
       })
       ..play().then((value) {
