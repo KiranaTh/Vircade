@@ -39,9 +39,55 @@ class _DancingState extends State<Dancing> {
               return route();
             }
           }
+
         },
       ),
     );
+  }
+
+  int _counter = 0;
+
+  streamSensor(){
+    new Timer.periodic(
+        Duration(milliseconds: 50),
+            (Timer timer) async {
+              setState(() {
+                _counter++;
+              });
+//              if( _counter % 2 == 0 ){
+                //print(_counter);
+                _streamSubscriptions
+                    .add(accelerometerEvents.listen((AccelerometerEvent event) {
+                  if(event.x != null ){
+                    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+                      subscription.resume();
+                    }
+                    setState(() {
+                      _accelerometerValues = <double>[event.x, event.y, event.z];
+                      i++;
+                      for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+                        subscription.pause();
+                      }
+                    });
+                    print("eventx not null=> $_counter: $i");
+                  }else{
+                    setState(() {
+                      _accelerometerValues = <double>[0.00000000, 0.00000000, 0.00000000];
+                      i++;
+                      for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+                        subscription.pause();
+                      }
+                    });
+                  }
+                }));
+//              }
+              if(_counter == 318){
+                for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+                  subscription.cancel();
+                  timer.cancel();
+                }
+              }
+        });
   }
 
   route(){
@@ -60,6 +106,7 @@ class _DancingState extends State<Dancing> {
     databaseReference.child("games").child(widget.gameID).child(uid).update({
       'ML': datas,
     });
+//    databaseReference.reference().child("test").child(widget.gameID).update({"time": ServerValue.timestamp, "song": widget.song, '$uid': {"ML": "", "score": 0}});
   }
   VideoPlayerController _videoController;
 
@@ -80,13 +127,14 @@ class _DancingState extends State<Dancing> {
         });
         startTimer();
         VideoPlayer(_videoController);
-        _streamSubscriptions
-            .add(accelerometerEvents.listen((AccelerometerEvent event) {
-          setState(() {
-            _accelerometerValues = <double>[event.x, event.y, event.z];
-            i++;
-          });
-        }));
+        streamSensor();
+//        _streamSubscriptions
+//            .add(accelerometerEvents.listen((AccelerometerEvent event) {
+//          setState(() {
+//            _accelerometerValues = <double>[event.x, event.y, event.z];
+//            i++;
+//          });
+//        }));
       });
     super.initState();
   }
@@ -106,7 +154,16 @@ class _DancingState extends State<Dancing> {
   Widget build(BuildContext context) {
     final List<String> accelerometer =
         _accelerometerValues?.map((double v) => v.toStringAsFixed(8))?.toList();
-    datas = List.generate(i, (index) => accelerometer);
+    if(i >= 270){
+      datas = List.generate(270, (index) => accelerometer);
+    }else{
+      int length = i;
+      datas = List.generate(i, (index) => accelerometer);
+      if(length <= 270 ){
+        datas.add(["0.00000000", "0.00000000", "0.00000000"]);
+        length++;
+      }
+    }
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
         body: Container(
