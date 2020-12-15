@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             '/avatar': (BuildContext context) => AvatarList(),
             '/song': (BuildContext context) => Songlist(),
             '/home1': (BuildContext context) => Home(),
-            '/match': (BuildContext context) => Match(),
+            // '/match': (BuildContext context) => Match(),
           },
         ));
   }

@@ -11,7 +11,13 @@ class Dancing extends StatefulWidget {
   final String song;
   final String uid;
   final String video;
-  Dancing({Key key, @required this.gameID, @required this.song, @required this.uid, @required this.video}) : super(key: key);
+  Dancing(
+      {Key key,
+      @required this.gameID,
+      @required this.song,
+      @required this.uid,
+      @required this.video})
+      : super(key: key);
   @override
   _DancingState createState() => _DancingState();
 }
@@ -39,7 +45,6 @@ class _DancingState extends State<Dancing> {
               return route();
             }
           }
-
         },
       ),
     );
@@ -47,67 +52,73 @@ class _DancingState extends State<Dancing> {
 
   int _counter = 0;
 
-  streamSensor(){
-    new Timer.periodic(
-        Duration(milliseconds: 50),
-            (Timer timer) async {
-              setState(() {
-                _counter++;
-              });
+  streamSensor() {
+    new Timer.periodic(Duration(milliseconds: 50), (Timer timer) async {
+      setState(() {
+        _counter++;
+      });
 //              if( _counter % 2 == 0 ){
-                //print(_counter);
-                _streamSubscriptions
-                    .add(accelerometerEvents.listen((AccelerometerEvent event) {
-                  if(event.x != null ){
-                    for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-                      subscription.resume();
-                    }
-                    setState(() {
-                      _accelerometerValues = <double>[event.x, event.y, event.z];
-                      i++;
-                      for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-                        subscription.pause();
-                      }
-                    });
-                    print("eventx not null=> $_counter: $i");
-                  }else{
-                    setState(() {
-                      _accelerometerValues = <double>[0.00000000, 0.00000000, 0.00000000];
-                      i++;
-                      for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-                        subscription.pause();
-                      }
-                    });
-                  }
-                }));
+      //print(_counter);
+      _streamSubscriptions
+          .add(accelerometerEvents.listen((AccelerometerEvent event) {
+        if (event.x != null) {
+          for (StreamSubscription<dynamic> subscription
+              in _streamSubscriptions) {
+            subscription.resume();
+          }
+          setState(() {
+            _accelerometerValues = <double>[event.x, event.y, event.z];
+            i++;
+            for (StreamSubscription<dynamic> subscription
+                in _streamSubscriptions) {
+              subscription.pause();
+            }
+          });
+          print("eventx not null=> $_counter: $i");
+        } else {
+          setState(() {
+            _accelerometerValues = <double>[0.00000000, 0.00000000, 0.00000000];
+            i++;
+            for (StreamSubscription<dynamic> subscription
+                in _streamSubscriptions) {
+              subscription.pause();
+            }
+          });
+        }
+      }));
 //              }
-              if(_counter == 318){
-                for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
-                  subscription.cancel();
-                  timer.cancel();
-                }
-              }
-        });
+      if (_counter == 318) {
+        for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+          subscription.cancel();
+          timer.cancel();
+        }
+      }
+    });
   }
 
-  route(){
+  route() {
     for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
       subscription.cancel();
     }
     print(datas);
     updateData();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Calculating(gameID: widget.gameID, song: widget.song, uid: widget.uid)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => Calculating(
+                gameID: widget.gameID, song: widget.song, uid: widget.uid)));
   }
 
   void updateData() async {
-    print("widget.gameID: ${widget.gameID} widget.uid: ${widget.uid} widget.song: ${widget.song}");
+    print(
+        "widget.gameID: ${widget.gameID} widget.uid: ${widget.uid} widget.song: ${widget.song}");
     final uid = await Provider.of(context).auth.getCurrentUID();
     databaseReference.child("games").child(widget.gameID).child(uid).update({
       'ML': datas,
     });
 //    databaseReference.reference().child("test").child(widget.gameID).update({"time": ServerValue.timestamp, "song": widget.song, '$uid': {"ML": "", "score": 0}});
   }
+
   VideoPlayerController _videoController;
 
   @override
@@ -139,8 +150,6 @@ class _DancingState extends State<Dancing> {
     super.initState();
   }
 
-
-
   @override
   void dispose() {
     super.dispose();
@@ -154,12 +163,12 @@ class _DancingState extends State<Dancing> {
   Widget build(BuildContext context) {
     final List<String> accelerometer =
         _accelerometerValues?.map((double v) => v.toStringAsFixed(8))?.toList();
-    if(i >= 270){
+    if (i >= 270) {
       datas = List.generate(270, (index) => accelerometer);
-    }else{
+    } else {
       int length = i;
       datas = List.generate(i, (index) => accelerometer);
-      if(length <= 270 ){
+      if (length <= 270) {
         datas.add(["0.00000000", "0.00000000", "0.00000000"]);
         length++;
       }

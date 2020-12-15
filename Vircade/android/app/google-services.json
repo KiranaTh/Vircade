@@ -30,6 +30,49 @@
             {
               "client_id": "699743058029-a00rtepl2n48j58jtntd0jaqvmi36psm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "699743058029-osifc4iiaembtheogb9seq8gvjb66hcf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.Vircade"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699743058029:android:ed8acc06136f28a2e6e764",
+        "android_client_info": {
+          "package_name": "com.example.testmodel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699743058029-a00rtepl2n48j58jtntd0jaqvmi36psm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-7jbckxw4F0aSAY7-81e66mtd3iH63pA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699743058029-a00rtepl2n48j58jtntd0jaqvmi36psm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "699743058029-osifc4iiaembtheogb9seq8gvjb66hcf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.Vircade"
+              }
             }
           ]
         }
