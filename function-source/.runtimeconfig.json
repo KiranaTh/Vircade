@@ -1,0 +1,8 @@
+{
+  "firebase": {
+    "projectId": "vircade-4c1d4",
+    "databaseURL": "https://vircade-4c1d4.firebaseio.com",
+    "storageBucket": "vircade-4c1d4.appspot.com",
+    "locationId": "us-east4"
+  }
+}

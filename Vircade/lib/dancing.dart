@@ -116,7 +116,7 @@ class _DancingState extends State<Dancing> {
     databaseReference.child("games").child(widget.gameID).child(uid).update({
       'ML': datas,
     });
-//    databaseReference.reference().child("test").child(widget.gameID).update({"time": ServerValue.timestamp, "song": widget.song, '$uid': {"ML": "", "score": 0}});
+    //databaseReference.reference().child("ml").child(widget.gameID).update({"time": ServerValue.timestamp, "song": widget.song, '$uid': {"ML": "", "score": 0}});
   }
 
   VideoPlayerController _videoController;
@@ -163,11 +163,11 @@ class _DancingState extends State<Dancing> {
   Widget build(BuildContext context) {
     final List<String> accelerometer =
         _accelerometerValues?.map((double v) => v.toStringAsFixed(8))?.toList();
-    if (i >= 270) {
+    if (_counter >= 270) {
       datas = List.generate(270, (index) => accelerometer);
     } else {
-      int length = i;
-      datas = List.generate(i, (index) => accelerometer);
+      int length = _counter;
+      datas = List.generate(_counter, (index) => accelerometer);
       if (length <= 270) {
         datas.add(["0.00000000", "0.00000000", "0.00000000"]);
         length++;
