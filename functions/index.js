@@ -141,3 +141,5 @@ function generateGameID() {
     for (var i = 0; i < 20; i++) gameID += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
     return gameID;
 }
+
+// }

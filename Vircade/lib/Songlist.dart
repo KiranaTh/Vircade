@@ -318,7 +318,7 @@ class LeftPanel extends StatelessWidget {
       final uid = await Provider.of(context).auth.getCurrentUID();
       databaseReference.reference().child("waitingRoom").child(song).update({"$uid": "waiting"});
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Match(song: song, uid: uid, video: video)));
+          context, MaterialPageRoute(builder: (context) => Match(song: song, uid: uid, video: video, status: "battleMode")));
     }
 
     void singleMode() async{
@@ -326,7 +326,7 @@ class LeftPanel extends StatelessWidget {
       databaseReference.reference().child("games").child(gameID).update({"time": ServerValue.timestamp, "song": song, '$uid': {"ML": "", "score": 0}});
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => TimerCount(
-            video: video, gameID: gameID, song: song, uid: uid,
+            video: video, gameID: gameID, song: song, uid: uid,  status: "singleMode"
           )));
     }
 
@@ -407,7 +407,6 @@ class LeftPanel extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    //MatchDatabase.createWaitingRoom(context, song);
                     battleMode();
                   },
                 ),

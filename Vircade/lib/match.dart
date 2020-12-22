@@ -9,11 +9,13 @@ class Match extends StatefulWidget {
   final String song;
   final String uid;
   final String video;
+  final String status;
   Match({
     Key key,
     @required this.song,
     @required this.uid,
     @required this.video,
+    @required this.status
   }) : super(key: key);
   @override
   _MatchState createState() => _MatchState();
@@ -37,20 +39,20 @@ class _MatchState extends State<Match> {
           print("data snapshot: ${data.key}");
           gameID = data.key;
           route2(gameID);
-          QuiteWaitingRoom();
+          quiteWaitingRoom();
         });
       }
     });
    setState(() {
      timer = new Timer(const Duration(minutes: 1),(){
        route1();
-       QuiteWaitingRoom();
+       quiteWaitingRoom();
      });
    });
     super.initState();
   }
 
-  QuiteWaitingRoom(){
+  quiteWaitingRoom(){
     databaseReference.child("waitingRoom").child(widget.song).child(widget.uid).remove();
   }
 
@@ -65,7 +67,7 @@ class _MatchState extends State<Match> {
     print("can change page");
     timer.cancel();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => TimerCount(video: widget.video, gameID: gameID, song: widget.song, uid: widget.uid)));
+        context, MaterialPageRoute(builder: (context) => TimerCount(video: widget.video, gameID: gameID, song: widget.song, uid: widget.uid, status: widget.status)));
   }
 
   @override

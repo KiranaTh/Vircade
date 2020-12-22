@@ -7,7 +7,8 @@ class TimerCount extends StatefulWidget {
   final String gameID;
   final String song;
   final String uid;
-  TimerCount({Key key, @required this.video, @required this.gameID, @required this.song, @required this.uid}) : super(key: key);
+  final String status;
+  TimerCount({Key key, @required this.video, @required this.gameID, @required this.song, @required this.uid, @required this.status}) : super(key: key);
 
   @override
   _TimerCountState createState() => _TimerCountState();
@@ -32,7 +33,7 @@ class _TimerCountState extends State<TimerCount> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => CountdownVideo(video: widget.video, gameID: widget.gameID, song: widget.song, uid: widget.uid)));
+            builder: (context) => CountdownVideo(video: widget.video, gameID: widget.gameID, song: widget.song, uid: widget.uid, status: widget.status)));
   }
 
   void countdown() {

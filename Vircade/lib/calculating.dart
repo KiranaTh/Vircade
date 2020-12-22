@@ -9,12 +9,15 @@ class Calculating extends StatefulWidget {
   final String gameID;
   final String song;
   final String uid;
+  final String status;
   Calculating({
     Key key,
     @required this.gameID,
     @required this.song,
     @required this.uid,
+    @required this.status
   }) : super(key: key);
+
   @override
   _Calculating createState() => _Calculating();
 }
@@ -25,9 +28,6 @@ class _Calculating extends State<Calculating> {
   Timer timer;
   int score;
   var timestamp;
-
-
-
 
   @override
   void initState() {
@@ -41,6 +41,13 @@ class _Calculating extends State<Calculating> {
               "score": score,
               "song": widget.song}
             );
+            databaseReference.child("games").child(widget.gameID).once().then((DataSnapshot snapshot){
+              Map<dynamic, dynamic> values=snapshot.value;
+              print(values["highScore"]);
+              if(values["highScore"] <= score){
+                databaseReference.child("games").child(widget.gameID).update({'highScore': score});
+              }
+            });
             db.collection("dancing").document(widget.uid).setData(data.toMap(), merge: true
             ).then((value){
               route1();
@@ -68,11 +75,10 @@ class _Calculating extends State<Calculating> {
     });
   }
 
-
   route1() {
     timer.cancel();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => ShowScore(score: score)));
+        context, MaterialPageRoute(builder: (context) => ShowScore(score: score, gameID: widget.gameID, status: widget.status)));
   }
 
 

@@ -8,7 +8,8 @@ class CountdownVideo extends StatefulWidget {
   final String gameID;
   final String song;
   final String uid;
-  CountdownVideo({Key key, @required this.video, @required this.gameID, @required this.song, @required this.uid}) : super(key: key);
+  final String status;
+  CountdownVideo({Key key, @required this.video, @required this.gameID, @required this.song, @required this.uid, @required this.status}) : super(key: key);
 
   @override
   _CountdownVideoState createState() => _CountdownVideoState();
@@ -30,7 +31,7 @@ class _CountdownVideoState extends State<CountdownVideo> {
         if (_videoController.value.initialized &&
             !_videoController.value.isPlaying) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Dancing(gameID: widget.gameID, song: widget.song, uid: widget.uid, video: widget.video)));
+              context, MaterialPageRoute(builder: (context) => Dancing(gameID: widget.gameID, song: widget.song, uid: widget.uid, video: widget.video, status: widget.status)));
         }
       })
       ..play().then((value) {

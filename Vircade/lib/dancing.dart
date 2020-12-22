@@ -5,18 +5,22 @@ import 'package:sensors/sensors.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:async';
 import 'calculating.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Dancing extends StatefulWidget {
   final String gameID;
   final String song;
   final String uid;
   final String video;
+  final String status;
   Dancing(
       {Key key,
       @required this.gameID,
       @required this.song,
       @required this.uid,
-      @required this.video})
+      @required this.video,
+      @required this.status})
       : super(key: key);
   @override
   _DancingState createState() => _DancingState();
@@ -106,18 +110,22 @@ class _DancingState extends State<Dancing> {
         context,
         MaterialPageRoute(
             builder: (context) => Calculating(
-                gameID: widget.gameID, song: widget.song, uid: widget.uid)));
+                gameID: widget.gameID, song: widget.song, uid: widget.uid, status: widget.status)));
   }
 
   void updateData() async {
-    print(
-        "widget.gameID: ${widget.gameID} widget.uid: ${widget.uid} widget.song: ${widget.song}");
     final uid = await Provider.of(context).auth.getCurrentUID();
     databaseReference.child("games").child(widget.gameID).child(uid).update({
       'ML': datas,
     });
-    //databaseReference.reference().child("ml").child(widget.gameID).update({"time": ServerValue.timestamp, "song": widget.song, '$uid': {"ML": "", "score": 0}});
+    databaseReference.child("games").child(widget.gameID).update({'highScore':0});
+    final url = 'https://vircade2020.herokuapp.com/model/classify';
+    http.post(url,headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    }, body: jsonEncode(<String, dynamic>{"gameID": widget.gameID, 'userId': uid, 'song': widget.song, 'ml': datas}));
+
   }
+
 
   VideoPlayerController _videoController;
 
@@ -168,7 +176,7 @@ class _DancingState extends State<Dancing> {
     } else {
       int length = _counter;
       datas = List.generate(_counter, (index) => accelerometer);
-      if (length <= 270) {
+      if (datas.length < 270 && datas.length >= _counter) {
         datas.add(["0.00000000", "0.00000000", "0.00000000"]);
         length++;
       }
