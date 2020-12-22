@@ -88,26 +88,28 @@ class _SignupState extends State<Signup> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          showPic(),
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 20.0),
+              padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 10.0),
               child: Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[
                       Image.asset(
                         "assets/logo.png",
-                        width: ScreenUtil().setWidth(110),
-                        height: ScreenUtil().setHeight(110),
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.15,
                       ),
                     ],
                   ),
                   showAlert(),
-                  space(),
                   Container(
+                    child: Column(
+                      children:<Widget>[
+                        showPic(),
+                        Container(
                     width: double.infinity,
-                    height: ScreenUtil().setHeight(550),
+                    height: ScreenUtil().setHeight(500),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
@@ -132,13 +134,15 @@ class _SignupState extends State<Signup> {
                           children: buildInputs(),
                         ),
                       ),
-                    ),
-                  ),
+                    )),
+                  ]),
+    ),
                   SizedBox(height: ScreenUtil().setHeight(40)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: buildButtons(),
                   ),
+                  SizedBox(height: ScreenUtil().setHeight(40)),
                 ],
               ),
             ),
@@ -200,16 +204,11 @@ class _SignupState extends State<Signup> {
     } else {
       pic = "assets/login.png";
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 30.0),
-          child: Image.asset(pic),
-        ),
-        Expanded(child: Container()),
-      ],
-    );
+    return  Image.asset(
+            pic,
+            width: MediaQuery.of(context).size.width * 0.8,
+//            height: MediaQuery.of(context).size.height * 0.9
+          );
   }
 
   List<Widget> buildInputs() {

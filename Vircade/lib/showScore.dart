@@ -14,27 +14,33 @@ class _ShowScoreState extends State<ShowScore> {
   final databaseReference = FirebaseDatabase.instance.reference();
   int highScore;
   String scoreStatus;
+  String scoreData;
   @override
   void initState() {
     databaseReference.child("games").child(widget.gameID).once().then((DataSnapshot snapshot){
       Map<dynamic, dynamic> values=snapshot.value;
-      print(values["highScore"]);
-      highScore = values["highScore"];
-      if(widget.score <  highScore){
-        scoreStatus = "LOSE";
-      }else{
-        scoreStatus = "WIN";
-      }
+      print("highScore: "+ values["highScore"].toString());
+      print("widgetScore: "+ widget.score.toString());
+      setState(() {
+        scoreData = widget.score.toString();
+        highScore = values["highScore"];
+        if(widget.score <  highScore){
+          scoreStatus = "LOSE";
+        }else if(widget.score ==  highScore){
+          scoreStatus = "WIN";
+        }
+      });
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String scoreData = widget.score.toString();
+    print("scoreData: "+ scoreData);
+    print("scorestatus"+ scoreStatus);
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
-        body: new Center(child: singleM(scoreData,scoreStatus)));
+        body: new Center(child: singleM(scoreData ,scoreStatus.toString())));
 //          child: Column(
 //            mainAxisAlignment: MainAxisAlignment.center,
 //            children: <Widget>[
@@ -193,6 +199,7 @@ class _ShowScoreState extends State<ShowScore> {
   }
   Widget singleM(String scoreData, String scoreStatus){
     if(widget.status == 'singleMode'){
+      print("singleMode");
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -347,7 +354,8 @@ class _ShowScoreState extends State<ShowScore> {
           SizedBox(height: 20.0),
         ],
       );
-    }else{
+    }else if(widget.status == 'battleMode'){
+      print("battleMode");
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -367,7 +375,7 @@ class _ShowScoreState extends State<ShowScore> {
           Text(
             scoreStatus,
             style: TextStyle(
-                color: Colors.yellow,
+                color: scoreStatus == "WIN"?Colors.greenAccent : Colors.redAccent,
                 height: 1.0,
                 fontSize: 60,
                 fontFamily: "Poppins-Bold"),
