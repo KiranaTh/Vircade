@@ -98,18 +98,17 @@ class _SignupState extends State<Signup> {
                       Image.asset(
                         "assets/logo.png",
                         width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.15,
+                        height: MediaQuery.of(context).size.height * 0.08,
                       ),
                     ],
                   ),
-                  showAlert(),
                   Container(
                     child: Column(
                       children:<Widget>[
                         showPic(),
                         Container(
                     width: double.infinity,
-                    height: ScreenUtil().setHeight(500),
+                    height: ScreenUtil().setHeight(550),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
@@ -138,8 +137,8 @@ class _SignupState extends State<Signup> {
                   ]),
     ),
                   SizedBox(height: ScreenUtil().setHeight(40)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+//                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: buildButtons(),
                   ),
                   SizedBox(height: ScreenUtil().setHeight(40)),
@@ -147,6 +146,7 @@ class _SignupState extends State<Signup> {
               ),
             ),
           ),
+          showAlert(),
         ],
       ),
     );
@@ -155,32 +155,38 @@ class _SignupState extends State<Signup> {
   Widget showAlert() {
     if (_warning != null) {
       return Container(
-        color: Colors.amberAccent,
-        width: double.infinity,
-        padding: EdgeInsets.all(8.0),
-        child: Row(
+        child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.error_outline),
-            ),
-            Expanded(
-              child: Text(
-                _warning,
-                maxLines: 3,
+            Container(
+            color: Colors.amberAccent,
+              width: double.infinity,
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Icon(Icons.error_outline),
+                  ),
+                  Expanded(
+                    child: Text(
+                      _warning,
+                      maxLines: 3,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          _warning = null;
+                        });
+                      },
+                    ),
+                  )
+                ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    _warning = null;
-                  });
-                },
-              ),
-            )
+            ), SizedBox(height:ScreenUtil().setHeight(550)),
           ],
         ),
       );
@@ -204,11 +210,7 @@ class _SignupState extends State<Signup> {
     } else {
       pic = "assets/login.png";
     }
-    return  Image.asset(
-            pic,
-            width: MediaQuery.of(context).size.width * 0.8,
-//            height: MediaQuery.of(context).size.height * 0.9
-          );
+    return  Image.asset(pic, width: MediaQuery.of(context).size.width * 0.8,);
   }
 
   List<Widget> buildInputs() {
@@ -221,7 +223,6 @@ class _SignupState extends State<Signup> {
     } else {
       _headerText = "LOG IN";
     }
-
     textFeilds.add(
       Text(_headerText,
           style: TextStyle(
@@ -318,48 +319,14 @@ class _SignupState extends State<Signup> {
     return [
       InkWell(
         child: Container(
-          width: ScreenUtil().setWidth(280),
-          height: ScreenUtil().setHeight(100),
-          decoration: BoxDecoration(
-              color: Color(0xFF091F36),
-              border: Border.all(
-                color: Colors.white,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(6.0),
-              boxShadow: [
-                BoxShadow(
-                    color: Color(0xFF6078ea).withOpacity(.3),
-                    offset: Offset(0.0, 8.0),
-                    blurRadius: 8.0)
-              ]),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => switchFormState(_newFormState),
-              child: Center(
-                child: Text(_leftButton,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "Poppins-Bold",
-                        fontSize: 18,
-                        letterSpacing: 1.0)),
-              ),
-            ),
-          ),
-        ),
-      ),
-      InkWell(
-        child: Container(
-          width: ScreenUtil().setWidth(280),
-          height: ScreenUtil().setHeight(100),
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.07,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: statesignUp == true
                       ? [Color(0xFFFF8B93), Color(0xFFFF414E)]
                       : [Color(0xFF17ead9), Color(0xFF6078ea)]),
-              borderRadius: BorderRadius.circular(6.0),
+              borderRadius: BorderRadius.circular(30.0),
               boxShadow: [
                 BoxShadow(
                     color: Color(0xFF6078ea).withOpacity(.3),
@@ -372,6 +339,43 @@ class _SignupState extends State<Signup> {
               onTap: () => submit(),
               child: Center(
                 child: Text(_submitButton,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins-Bold",
+                        fontSize: 18,
+                        letterSpacing: 1.0)),
+              ),
+            ),
+          ),
+        ),
+      ),
+//      SizedBox(
+//        height: ScreenUtil().setHeight(20),
+//      ),
+      InkWell(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.07,
+          decoration: BoxDecoration(
+//              color: Color(0xFF091F36),
+              border: Border.all(
+                color: Colors.transparent,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(30.0),),
+//              boxShadow: [
+//                BoxShadow(
+//                    color: Color(0xFF6078ea).withOpacity(.3),
+//                    offset: Offset(0.0, 8.0),
+//                    blurRadius: 8.0)
+//              ]),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => switchFormState(_newFormState),
+              child: Center(
+                child: Text(_leftButton,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: "Poppins-Bold",

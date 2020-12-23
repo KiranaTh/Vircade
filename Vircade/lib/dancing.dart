@@ -31,7 +31,8 @@ class _DancingState extends State<Dancing> {
   int i = 1;
   double _progress = 0;
   List<double> _accelerometerValues;
-  List<List<String>> datas;
+  List datas = [];
+  List dataset =[];
   List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
 
@@ -61,8 +62,6 @@ class _DancingState extends State<Dancing> {
       setState(() {
         _counter++;
       });
-//              if( _counter % 2 == 0 ){
-      //print(_counter);
       _streamSubscriptions
           .add(accelerometerEvents.listen((AccelerometerEvent event) {
         if (event.x != null) {
@@ -77,17 +76,12 @@ class _DancingState extends State<Dancing> {
                 in _streamSubscriptions) {
               subscription.pause();
             }
+            if(i <= 130){
+              datas.add(
+                  _accelerometerValues?.map((double v) => v.toStringAsFixed(8))
+                      ?.toList());}
           });
           print("eventx not null=> $_counter: $i");
-        } else {
-          setState(() {
-            _accelerometerValues = <double>[0.00000000, 0.00000000, 0.00000000];
-            i++;
-            for (StreamSubscription<dynamic> subscription
-                in _streamSubscriptions) {
-              subscription.pause();
-            }
-          });
         }
       }));
 //              }
@@ -97,7 +91,8 @@ class _DancingState extends State<Dancing> {
           timer.cancel();
         }
       }
-    });
+    }
+    );
   }
 
   route() {
@@ -114,9 +109,13 @@ class _DancingState extends State<Dancing> {
   }
 
   void updateData() async {
+     if(datas.length <= 130){
+      List d = List.generate(130 - datas.length, (index) => [ 0.00000000, 0.00000000,  0.00000000]);
+      datas.addAll(d);
+    }
     final uid = await Provider.of(context).auth.getCurrentUID();
     databaseReference.child("games").child(widget.gameID).child(uid).update({
-      'ML': datas,
+      'ML':  datas,
     });
     databaseReference.child("games").child(widget.gameID).update({'highScore':0});
     final url = 'https://vircade2020.herokuapp.com/model/classify';
@@ -171,16 +170,6 @@ class _DancingState extends State<Dancing> {
   Widget build(BuildContext context) {
     final List<String> accelerometer =
         _accelerometerValues?.map((double v) => v.toStringAsFixed(8))?.toList();
-    if (_counter >= 270) {
-      datas = List.generate(270, (index) => accelerometer);
-    } else {
-      int length = _counter;
-      datas = List.generate(_counter, (index) => accelerometer);
-      if (datas.length < 270 && datas.length >= _counter) {
-        datas.add(["0.00000000", "0.00000000", "0.00000000"]);
-        length++;
-      }
-    }
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
         body: Container(
