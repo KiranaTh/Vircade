@@ -41,165 +41,21 @@ class _ShowScoreState extends State<ShowScore> {
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
         body: new Center(child: singleM(scoreData ,scoreStatus.toString())));
-//          child: Column(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              Container(
-//                child: Image.asset("assets/trophy.gif"),
-//                width: MediaQuery.of(context).size.width * 0.6,
-//                height: MediaQuery.of(context).size.height * 0.4,
-//              ),
-//              Text(
-//                'SCORE',
-//                style: TextStyle(
-//                    color: Colors.white,
-//                    height: 1.0,
-//                    fontSize: 30,
-//                    fontFamily: "Poppins-Bold"),
-//              ),
-//              Text(
-//                scoreData,
-//                style: TextStyle(
-//                    color: Colors.yellow,
-//                    height: 1.0,
-//                    fontSize: 60,
-//                    fontFamily: "Poppins-Bold"),
-//              ),
-//              Row(
-//                mainAxisAlignment: MainAxisAlignment.center,
-//                crossAxisAlignment: CrossAxisAlignment.center,
-//                children: <Widget>[
-//                  Column(
-//                    children: <Widget>[
-//                      Text(
-//                        'BEST',
-//                        style: TextStyle(
-//                            color: Colors.white,
-//                            height: 1.0,
-//                            fontSize: 18,
-//                            fontFamily: "Poppins-Bold"),
-//                      ),
-//                      Text(
-//                        'SCORE',
-//                        style: TextStyle(
-//                            color: Colors.white,
-//                            height: 1.0,
-//                            fontSize: 18,
-//                            fontFamily: "Poppins-Bold"),
-//                      ),
-//                    ],
-//                  ),
-//                  SizedBox(width: 15.0),
-//                  Text(
-//                    '76543',
-//                    style: TextStyle(
-//                        color: Colors.white,
-//                        fontSize: 40,
-//                        fontFamily: "Poppins-Bold"),
-//                  ),
-//                ],
-//              ),
-//              SizedBox(height: 15.0),
-//              InkWell(
-//                  child: Container(
-//                      width: MediaQuery.of(context).size.width * 0.7,
-//                      height: MediaQuery.of(context).size.height * 0.07,
-//                      decoration: BoxDecoration(
-//                        color: Colors.blueAccent,
-//                        border: Border.all(
-//                          color: Colors.blueAccent,
-//                          width: 2,
-//                        ),
-//                        borderRadius: BorderRadius.circular(30.0),
-//                      ),
-//                      child: Material(
-//                        color: Colors.transparent,
-//                        child: InkWell(
-//                          onTap: () {
-//                            Navigator.of(context)
-//                                .pushReplacementNamed('/home1');
-//                          },
-//                          child: Center(
-//                            child: Text("Play again",
-//                                textAlign: TextAlign.center,
-//                                style: TextStyle(
-//                                    color: Colors.white,
-//                                    fontFamily: "Poppins-Bold",
-//                                    fontSize: 18,
-//                                    letterSpacing: 1.0)),
-//                          ),
-//                        ),
-//                      ))),
-//              SizedBox(height: 10.0),
-//              InkWell(
-//                  child: Container(
-//                      width: MediaQuery.of(context).size.width * 0.7,
-//                      height: MediaQuery.of(context).size.height * 0.07,
-//                      decoration: BoxDecoration(
-//                        color: Colors.redAccent,
-//                        border: Border.all(
-//                          color: Colors.redAccent,
-//                          width: 2,
-//                        ),
-//                        borderRadius: BorderRadius.circular(30.0),
-//                      ),
-//                      child: Material(
-//                        color: Colors.transparent,
-//                        child: InkWell(
-//                          onTap: () {
-//                            Navigator.of(context)
-//                                .pushReplacementNamed('/home1');
-//                          },
-//                          child: Center(
-//                            child: Text("Select new song",
-//                                textAlign: TextAlign.center,
-//                                style: TextStyle(
-//                                    color: Colors.white,
-//                                    fontFamily: "Poppins-Bold",
-//                                    fontSize: 18,
-//                                    letterSpacing: 1.0)),
-//                          ),
-//                        ),
-//                      ))),
-//              SizedBox(height: 10.0),
-//              InkWell(
-//                  child: Container(
-//                      width: MediaQuery.of(context).size.width * 0.7,
-//                      height: MediaQuery.of(context).size.height * 0.07,
-//                      decoration: BoxDecoration(
-//                        color: Color(0xFF091F36),
-//                        border: Border.all(
-//                          color: Colors.white,
-//                          width: 2,
-//                        ),
-//                        borderRadius: BorderRadius.circular(30.0),
-//                      ),
-//                      child: Material(
-//                        color: Colors.transparent,
-//                        child: InkWell(
-//                          onTap: () {
-//                            Navigator.of(context)
-//                                .pushReplacementNamed('/home1');
-//                          },
-//                          child: Center(
-//                            child: Text("Back to Home",
-//                                textAlign: TextAlign.center,
-//                                style: TextStyle(
-//                                    color: Colors.white,
-//                                    fontFamily: "Poppins-Bold",
-//                                    fontSize: 18,
-//                                    letterSpacing: 1.0)),
-//                          ),
-//                        ),
-//                      ))),
-//              SizedBox(height: 20.0),
-//            ],
-//          ),
-//        ));
   }
   Widget singleM(String scoreData, String scoreStatus){
     if(widget.status == 'singleMode'){
       print("singleMode");
+      String word1, word2;
+      if(int.parse(scoreData) <= 30){
+        word1 = "SEEM NEED TO";
+        word2 = "PRACTICE MORE";
+      }else if(int.parse(scoreData) > 30 && int.parse(scoreData) <= 60){
+        word1 = "NICE TRY!!";
+        word2 = "GOOD JOB!!!!";
+      }else {
+        word1 = "BEST DANCER";
+        word2 = "!!!!IS HERE!!!!";
+      }
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -221,106 +77,31 @@ class _ShowScoreState extends State<ShowScore> {
             style: TextStyle(
                 color: Colors.yellow,
                 height: 1.0,
-                fontSize: 60,
+                fontSize: 100,
                 fontFamily: "Poppins-Bold"),
           ),
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Text(
-                    'BEST',
-                    style: TextStyle(
-                        color: Colors.white,
-                        height: 1.0,
-                        fontSize: 18,
-                        fontFamily: "Poppins-Bold"),
-                  ),
-                  Text(
-                    'SCORE',
-                    style: TextStyle(
-                        color: Colors.white,
-                        height: 1.0,
-                        fontSize: 18,
-                        fontFamily: "Poppins-Bold"),
-                  ),
-                ],
-              ),
               SizedBox(width: 15.0),
               Text(
-                '76543',
+                word1,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 40,
+                    fontSize: 30,
+                    fontFamily: "Poppins-Bold"),
+              ),
+              Text(
+                word2,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
                     fontFamily: "Poppins-Bold"),
               ),
             ],
           ),
-          SizedBox(height: 15.0),
-          InkWell(
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    border: Border.all(
-                      color: Colors.blueAccent,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed('/home1');
-                      },
-                      child: Center(
-                        child: Text("Play again",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Poppins-Bold",
-                                fontSize: 18,
-                                letterSpacing: 1.0)),
-                      ),
-                    ),
-                  ))),
-          SizedBox(height: 10.0),
-          InkWell(
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    border: Border.all(
-                      color: Colors.redAccent,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed('/home1');
-                      },
-                      child: Center(
-                        child: Text("Select new song",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Poppins-Bold",
-                                fontSize: 18,
-                                letterSpacing: 1.0)),
-                      ),
-                    ),
-                  ))),
-          SizedBox(height: 10.0),
+          SizedBox(height: 30.0),
           InkWell(
               child: Container(
                   width: MediaQuery.of(context).size.width * 0.7,
@@ -328,7 +109,7 @@ class _ShowScoreState extends State<ShowScore> {
                   decoration: BoxDecoration(
                     color: Color(0xFF091F36),
                     border: Border.all(
-                      color: Colors.white,
+                      color: Colors.redAccent,
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(30.0),
@@ -344,7 +125,7 @@ class _ShowScoreState extends State<ShowScore> {
                         child: Text("Back to Home",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.redAccent,
                                 fontFamily: "Poppins-Bold",
                                 fontSize: 18,
                                 letterSpacing: 1.0)),
@@ -406,68 +187,6 @@ class _ShowScoreState extends State<ShowScore> {
               ),
             ],
           ),
-          SizedBox(height: 15.0),
-          InkWell(
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    border: Border.all(
-                      color: Colors.blueAccent,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed('/home1');
-                      },
-                      child: Center(
-                        child: Text("Play again",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Poppins-Bold",
-                                fontSize: 18,
-                                letterSpacing: 1.0)),
-                      ),
-                    ),
-                  ))),
-          SizedBox(height: 10.0),
-          InkWell(
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    border: Border.all(
-                      color: Colors.redAccent,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed('/home1');
-                      },
-                      child: Center(
-                        child: Text("Select new song",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Poppins-Bold",
-                                fontSize: 18,
-                                letterSpacing: 1.0)),
-                      ),
-                    ),
-                  ))),
           SizedBox(height: 10.0),
           InkWell(
               child: Container(

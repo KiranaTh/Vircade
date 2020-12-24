@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Vircade/widgets/provider_widget.dart';
 
+
 enum AuthFormType { logIn, signUp, reset }
 
 class Signup extends StatefulWidget {

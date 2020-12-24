@@ -48,10 +48,13 @@ class _Calculating extends State<Calculating> {
                 databaseReference.child("games").child(widget.gameID).update({'highScore': score});
               }
             });
-            db.collection("dancing").document(widget.uid).setData(data.toMap(), merge: true
-            ).then((value){
-              route1();
-            });
+            db.collection("dancing").add({"userId": widget.uid, "score": score, "song": widget.song, "time": snap.value.toString()}).then((value){route1();});
+
+//            db.collection("dancing").document(widget.uid).setData({"history": FieldValue.arrayUnion([{ "score": score,
+//              "song": widget.song, "time": snap.value.toString()}])}, merge: true
+//            ).then((value){
+//              route1();
+//            });
      });
     }});
     setState(() {
@@ -68,10 +71,13 @@ class _Calculating extends State<Calculating> {
         "score": 0,
         "song": widget.song}
       );
-      db.collection("dancing").document(widget.uid).setData(data.toMap(), merge: true
-      ).then((value){
-        route1();
-      });
+      db.collection("dancing").add({"userId": widget.uid, "score": score, "song": widget.song, "time": snap.value.toString()}).then((value){route1();});
+
+//      db.collection("dancing").document(widget.uid).setData({"history": FieldValue.arrayUnion([{ "score": score,
+//        "song": widget.song, "time": snap.value.toString()}])}, merge: true
+//      ).then((value){
+//        route1();
+//      });
     });
   }
 

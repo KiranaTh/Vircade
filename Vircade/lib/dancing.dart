@@ -76,7 +76,7 @@ class _DancingState extends State<Dancing> {
                 in _streamSubscriptions) {
               subscription.pause();
             }
-            if(i <= 130){
+            if(i <= 80){
               datas.add(
                   _accelerometerValues?.map((double v) => v.toStringAsFixed(8))
                       ?.toList());}
@@ -109,12 +109,12 @@ class _DancingState extends State<Dancing> {
   }
 
   void updateData() async {
-     if(datas.length <= 130){
-      List d = List.generate(130 - datas.length, (index) => [ 0.00000000, 0.00000000,  0.00000000]);
+     if(datas.length <= 80){
+      List d = List.generate(80 - datas.length, (index) => [ 0.00000000, 0.00000000,  0.00000000]);
       datas.addAll(d);
     }
     final uid = await Provider.of(context).auth.getCurrentUID();
-    databaseReference.child("games").child(widget.gameID).child(uid).update({
+    databaseReference.child("test").child(widget.gameID).child(uid).update({
       'ML':  datas,
     });
     databaseReference.child("games").child(widget.gameID).update({'highScore':0});
