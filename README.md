@@ -20,6 +20,6 @@ firebase init
 `firebase deploy`
 
 ## Reference
-[Flutter](https://flutter.dev/docs/get-started/install)
+[Flutter](https://flutter.dev/docs/get-started/install)</br>
 [Cloud Firestore](https://firebase.google.com/docs/functions/get-started)
 
