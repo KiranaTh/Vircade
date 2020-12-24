@@ -26,14 +26,14 @@ class _Calculating extends State<Calculating> {
   final databaseReference = FirebaseDatabase.instance.reference();
   final db = Firestore.instance;
   Timer timer;
-  int score;
+  double score;
   var timestamp;
 
   @override
   void initState() {
     databaseReference.child("games").child(widget.gameID).child(widget.uid).onValue.listen((event) {
       var snapshot = event.snapshot;
-      score = snapshot.value["score"];
+      score = double.parse(snapshot.value["score"].toString());
       print('score is $score');
         if (score != null && score != 0) {
           databaseReference.child("games").child(widget.gameID).child("time").once().then((DataSnapshot snap){
@@ -58,7 +58,7 @@ class _Calculating extends State<Calculating> {
      });
     }});
     setState(() {
-      timer = new Timer(const Duration(minutes: 1),(){
+      timer = new Timer(const Duration(seconds: 40),(){
         outOfTime();
       });
     });
@@ -84,7 +84,7 @@ class _Calculating extends State<Calculating> {
   route1() {
     timer.cancel();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => ShowScore(score: score, gameID: widget.gameID, status: widget.status)));
+        context, MaterialPageRoute(builder: (context) => ShowScore(uid: widget.uid, score: score, gameID: widget.gameID, status: widget.status)));
   }
 
 

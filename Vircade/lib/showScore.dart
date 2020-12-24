@@ -2,17 +2,18 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class ShowScore extends StatefulWidget {
-  final int score;
+  final double score;
+  final String uid;
   final String gameID;
   final String status;
-  ShowScore({Key key, @required this.score, @required this.gameID, @required this.status}) : super(key: key);
+  ShowScore({Key key, @required this.uid, @required this.score, @required this.gameID, @required this.status}) : super(key: key);
   @override
   _ShowScoreState createState() => _ShowScoreState();
 }
 
 class _ShowScoreState extends State<ShowScore> {
   final databaseReference = FirebaseDatabase.instance.reference();
-  int highScore;
+  double highScore;
   String scoreStatus;
   String scoreData;
   @override
@@ -23,10 +24,10 @@ class _ShowScoreState extends State<ShowScore> {
       print("widgetScore: "+ widget.score.toString());
       setState(() {
         scoreData = widget.score.toString();
-        highScore = values["highScore"];
-        if(widget.score <  highScore){
+        highScore = double.parse(values["highScore"].toString());
+        if(double.parse(widget.score.toString()) <  highScore){
           scoreStatus = "LOSE";
-        }else if(widget.score ==  highScore){
+        }else if(double.parse(widget.score.toString()) ==  highScore){
           scoreStatus = "WIN";
         }
       });
@@ -40,16 +41,16 @@ class _ShowScoreState extends State<ShowScore> {
     print("scorestatus"+ scoreStatus);
     return Scaffold(
         backgroundColor: Color(0xFF091F36),
-        body: new Center(child: singleM(scoreData ,scoreStatus.toString())));
+        body: new Center(child: singleM(double.parse(scoreData).toString() ,scoreStatus.toString())));
   }
   Widget singleM(String scoreData, String scoreStatus){
     if(widget.status == 'singleMode'){
       print("singleMode");
       String word1, word2;
-      if(int.parse(scoreData) <= 30){
+      if(double.parse(scoreData) <= 30){
         word1 = "SEEM NEED TO";
         word2 = "PRACTICE MORE";
-      }else if(int.parse(scoreData) > 30 && int.parse(scoreData) <= 60){
+      }else if(double.parse(scoreData) > 30 && double.parse(scoreData) <= 60){
         word1 = "NICE TRY!!";
         word2 = "GOOD JOB!!!!";
       }else {
@@ -73,7 +74,7 @@ class _ShowScoreState extends State<ShowScore> {
                 fontFamily: "Poppins-Bold"),
           ),
           Text(
-            scoreData,
+            double.parse(scoreData).toString(),
             style: TextStyle(
                 color: Colors.yellow,
                 height: 1.0,
@@ -179,7 +180,7 @@ class _ShowScoreState extends State<ShowScore> {
               ),
               SizedBox(width: 15.0),
               Text(
-                scoreData,
+                double.parse(scoreData).toString(),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 40,

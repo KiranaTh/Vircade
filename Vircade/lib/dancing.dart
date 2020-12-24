@@ -42,11 +42,18 @@ class _DancingState extends State<Dancing> {
       (Timer timer) => setState(
         () {
           if (_progress >= 1) {
-            timer.cancel();
+            for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+              subscription.cancel();
+              timer.cancel();
+            }
           } else {
             _progress += 1 / 15;
             if (_progress >= 1) {
               timer.cancel();
+              for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
+                subscription.cancel();
+                timer.cancel();
+              }
               return route();
             }
           }
@@ -85,7 +92,7 @@ class _DancingState extends State<Dancing> {
         }
       }));
 //              }
-      if (_counter == 318) {
+      if (_counter == 290) {
         for (StreamSubscription<dynamic> subscription in _streamSubscriptions) {
           subscription.cancel();
           timer.cancel();
@@ -114,7 +121,7 @@ class _DancingState extends State<Dancing> {
       datas.addAll(d);
     }
     final uid = await Provider.of(context).auth.getCurrentUID();
-    databaseReference.child("test").child(widget.gameID).child(uid).update({
+    databaseReference.child("games").child(widget.gameID).child(uid).update({
       'ML':  datas,
     });
     databaseReference.child("games").child(widget.gameID).update({'highScore':0});
